@@ -29,7 +29,7 @@ ttl_hours = 24`}
 
       <Callout type="note">
         <strong>Current behaviour:</strong> These keys are written during initialization but are not yet
-        actively consumed by the CLI. The effective score floor comes from the built-in YAML engine
+        consumed by the CLI. The effective score floor comes from the built-in YAML engine
         configuration plus the <Code>--min-score</Code> flag you pass. Use <Code>--min-score</Code> today;
         this configuration file is reserved for future user-level defaults.
       </Callout>
@@ -37,14 +37,14 @@ ttl_hours = 24`}
       <H2 id="logging">Logging configuration</H2>
       <P>
         Diagnostics and trace logs are written to <Code>./.packsafe/logs/packsafe.log</Code>, never directly
-        into your working directory root.
+        into the working directory root.
       </P>
 
       <H3>Log level precedence</H3>
       <P>The logging level is determined by the first match in this order:</P>
       <OL>
-        <LI ordered><Code>--log-level LEVEL</Code> (command flag)</LI>
-        <LI ordered><Code>--verbose / -v</Code> (sets level to <Code>DEBUG</Code>)</LI>
+        <LI ordered><Code>--log-level LEVEL</Code> (explicit flag: DEBUG, INFO, WARNING, or ERROR)</LI>
+        <LI ordered><Code>--verbose / -v</Code> (flag; sets level to DEBUG)</LI>
         <LI ordered><Code>PACKSAFE_LOG_LEVEL</Code> environment variable</LI>
         <LI ordered><Code>INFO</Code> (default)</LI>
       </OL>
@@ -52,7 +52,7 @@ ttl_hours = 24`}
       <H3>Log file destination precedence</H3>
       <P>The destination path is resolved in this order:</P>
       <OL>
-        <LI ordered><Code>--log-file PATH</Code></LI>
+        <LI ordered><Code>--log-file PATH</Code> (command flag)</LI>
         <LI ordered><Code>PACKSAFE_LOG_FILE</Code> environment variable</LI>
         <LI ordered><Code>./.packsafe/logs/packsafe.log</Code> (default)</LI>
       </OL>
@@ -89,6 +89,9 @@ PACKSAFE_LOG_FILE=/tmp/p.log PACKSAFE_LOG_LEVEL=DEBUG packsafe analyze requests`
             ['PACKSAFE_LOG_LEVEL', 'Log level: DEBUG, INFO, WARNING, or ERROR. Unrecognised values fall back to INFO', 'INFO'],
             ['PACKSAFE_LOG_FILE', 'Destination path for trace logs', './.packsafe/logs/packsafe.log'],
             ['GITHUB_TOKEN', 'Optional personal access token; raises GitHub API rate limit from 60 req/hr', 'None'],
+            ['PACKSAFE_EXPLAIN_URL', 'Which PackSafe service --explain calls', 'http://localhost:8000'],
+            ['PACKSAFE_EXPLAIN_TOKEN', 'Optional shared secret sent to explain service as a bearer token', 'None'],
+            ['PACKSAFE_EXPLAIN_TIMEOUT', 'Seconds to wait for an explanation', '60'],
           ].map(([env, purp, def]) => (
             <TR key={env}>
               <TD><Code>{env}</Code></TD>
@@ -98,6 +101,10 @@ PACKSAFE_LOG_FILE=/tmp/p.log PACKSAFE_LOG_LEVEL=DEBUG packsafe analyze requests`
           ))}
         </TBody>
       </Table>
+
+      <Callout type="important">
+        <strong>You never supply a model provider key to the CLI.</strong> The provider key lives on the machine running the PackSafe service (<Code>PACKSAFE_LLM_API_KEY</Code> and <Code>PACKSAFE_LLM_PROVIDER</Code> there), which is why <Code>--explain</Code> is a call to a service rather than directly calling a model from your terminal.
+      </Callout>
 
       <H2 id="reproducibility">Reproducibility & Config Digest</H2>
       <P>
@@ -110,7 +117,8 @@ PACKSAFE_LOG_FILE=/tmp/p.log PACKSAFE_LOG_LEVEL=DEBUG packsafe analyze requests`
         alongside the engine version and a UTC timestamp:
       </P>
       <CodeBlock lang="text">
-{`Coverage: 94% · Engine: 0.1.2 · SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`}
+{`evidence 28/30 metrics measured · coverage deep_static · engine 0.1.2
+config 7f3c9a21 · 2026-02-11T09:14:22Z · archive a1b2c3d4e5f6`}
       </CodeBlock>
       <P>
         This guarantees that any score can be reproduced, verified, or challenged months later by anyone
