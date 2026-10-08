@@ -1,171 +1,121 @@
 import {
-  Prose, H1, H2, H3, P, Lead, Code, CodeBlock, Callout, UL, LI, SectionLabel, FlagRow,
-  Table, THead, TBody, TR, TH, TD,
+  Prose, H1, H2, H3, P, Lead, Code, CodeBlock, Callout, UL, OL, LI, SectionLabel,
+  Table, THead, TBody, TR, TH, TD, Hr,
 } from '@/components/Markdown'
 
 export default function Configuration() {
   return (
     <Prose>
       <SectionLabel>CONFIGURATION</SectionLabel>
-      <H1>Config file</H1>
+      <H1>Configuration & Logging</H1>
       <Lead>
-        PackSafe reads configuration from <Code>.packsafe.json</Code> in the project root, or from
-        <Code>~/.config/packsafe/config.json</Code> for user-wide defaults. Project config takes
-        precedence.
+        Configuration file specifications, diagnostics logging hierarchy, and environment variable controls.
       </Lead>
 
-      <H2 id="config-file">Config file location</H2>
+      <H2 id="config-file">~/.packsafe/config.toml</H2>
       <P>
-        PackSafe searches for a config file in the following order, stopping at the first match:
+        When you run <Code>packsafe init</Code>, PackSafe writes an initial configuration file to{' '}
+        <Code>~/.packsafe/config.toml</Code>:
       </P>
-      <UL>
-        <LI><Code>.packsafe.json</Code> in the current working directory</LI>
-        <LI><Code>.packsafe.json</Code> in any parent directory up to the git root</LI>
-        <LI><Code>~/.config/packsafe/config.json</Code> (user-wide default)</LI>
-      </UL>
+      <CodeBlock lang="toml" title="~/.packsafe/config.toml">
+{`[security]
+minimum_score = 85
+policy = "block"
 
-      <H2 id="full-schema">Full configuration schema</H2>
-      <CodeBlock lang="json" title=".packsafe.json">
-{`{
-  "version": 1,
-
-  "thresholds": {
-    "block": 70,
-    "warn": 85
-  },
-
-  "registries": {
-    "npm": "https://registry.npmjs.org",
-    "pypi": "https://pypi.org/pypi",
-    "private": "https://npm.internal.example.com"
-  },
-
-  "allowlist": [
-    "internal-package-a",
-    "internal-package-b@1.2.3"
-  ],
-
-  "blocklist": [
-    "known-malicious-package"
-  ],
-
-  "signals": {
-    "maintenance":   { "weight": 0.20, "enabled": true },
-    "vulnerabilities": { "weight": 0.25, "enabled": true },
-    "authenticity":  { "weight": 0.25, "enabled": true },
-    "community_trust": { "weight": 0.15, "enabled": true },
-    "install_behavior": { "weight": 0.15, "enabled": true }
-  },
-
-  "output": {
-    "format": "text",
-    "color": true,
-    "verbose": false
-  },
-
-  "ci": {
-    "fail_on": "block",
-    "silent": false,
-    "exit_zero_on_warn": false
-  }
-}`}
+[cache]
+enabled = true
+ttl_hours = 24`}
       </CodeBlock>
 
-      <H2 id="thresholds">Thresholds</H2>
-      <div style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#0e0e0e', marginBottom: '24px' }}>
-        <FlagRow flag="thresholds.block" type="number" defaultVal="70">
-          Packages scoring below this value are blocked. Installation does not proceed.
-          Non-zero exit code emitted.
-        </FlagRow>
-        <FlagRow flag="thresholds.warn" type="number" defaultVal="85">
-          Packages scoring between <Code>block</Code> and <Code>warn</Code> trigger an
-          interactive confirmation prompt. Packages above <Code>warn</Code> install silently.
-        </FlagRow>
-      </div>
-
-      <Callout type="warning">
-        Raising <Code>thresholds.block</Code> above 85 will cause many legitimate packages to be
-        blocked. The default of 70 is chosen to block clear threats while allowing packages with minor
-        signals like low community trust to still install with a warning.
+      <Callout type="note">
+        <strong>Current behaviour:</strong> These keys are written during initialization but are not yet
+        actively consumed by the CLI. The effective score floor comes from the built-in YAML engine
+        configuration plus the <Code>--min-score</Code> flag you pass. Use <Code>--min-score</Code> today;
+        this configuration file is reserved for future user-level defaults.
       </Callout>
 
-      <H2 id="allowlist-blocklist">Allowlist and blocklist</H2>
+      <H2 id="logging">Logging configuration</H2>
       <P>
-        Packages in the allowlist bypass all analysis and install unconditionally. This is intended
-        for internal or private packages that are not in any public registry.
+        Diagnostics and trace logs are written to <Code>./.packsafe/logs/packsafe.log</Code>, never directly
+        into your working directory root.
       </P>
-      <P>
-        Packages in the blocklist are always rejected regardless of their Safety Score. Use this to
-        enforce organization-wide bans on specific packages.
-      </P>
-      <CodeBlock lang="json">
-{`{
-  "allowlist": [
-    "my-internal-ui-lib",
-    "company-auth-sdk@2.x"
-  ],
-  "blocklist": [
-    "event-stream@3.3.6",
-    "eslint-scope@3.7.2"
-  ]
-}`}
+
+      <H3>Log level precedence</H3>
+      <P>The logging level is determined by the first match in this order:</P>
+      <OL>
+        <LI ordered><Code>--log-level LEVEL</Code> (command flag)</LI>
+        <LI ordered><Code>--verbose / -v</Code> (sets level to <Code>DEBUG</Code>)</LI>
+        <LI ordered><Code>PACKSAFE_LOG_LEVEL</Code> environment variable</LI>
+        <LI ordered><Code>INFO</Code> (default)</LI>
+      </OL>
+
+      <H3>Log file destination precedence</H3>
+      <P>The destination path is resolved in this order:</P>
+      <OL>
+        <LI ordered><Code>--log-file PATH</Code></LI>
+        <LI ordered><Code>PACKSAFE_LOG_FILE</Code> environment variable</LI>
+        <LI ordered><Code>./.packsafe/logs/packsafe.log</Code> (default)</LI>
+      </OL>
+
+      <H3>Logging examples</H3>
+      <CodeBlock lang="bash">
+{`# Custom log destination
+packsafe --log-file /tmp/packsafe.log analyze requests
+
+# Explicit DEBUG logging
+packsafe --log-level DEBUG analyze requests
+
+# Using environment variables
+PACKSAFE_LOG_FILE=/tmp/p.log PACKSAFE_LOG_LEVEL=DEBUG packsafe analyze requests`}
       </CodeBlock>
+
+      <Callout type="tip">
+        Setting <Code>DEBUG</Code> level records each metric's raw value, its normalized value, and the
+        arithmetic in between, plus every HTTP call and retry — enough information to audit any score by hand.
+      </Callout>
 
       <H2 id="environment-variables">Environment variables</H2>
       <Table>
         <THead>
-          <TR><TH>Variable</TH><TH>Description</TH><TH>Default</TH></TR>
+          <TR>
+            <TH>Variable</TH>
+            <TH>Purpose</TH>
+            <TH>Default</TH>
+          </TR>
         </THead>
         <TBody>
           {[
-            ['PACKSAFE_TOKEN', 'API authentication token', 'none'],
-            ['PACKSAFE_CONFIG_DIR', 'Override config directory path', '~/.config/packsafe'],
-            ['PACKSAFE_THRESHOLD', 'Override block threshold', '70'],
-            ['PACKSAFE_FORMAT', 'Output format: text | json', 'text'],
-            ['PACKSAFE_NO_COLOR', 'Disable color output', 'false'],
-            ['PACKSAFE_SILENT', 'Suppress non-error output', 'false'],
-            ['PACKSAFE_REGISTRY', 'Default registry: npm | pypi', 'npm'],
-          ].map(([env, desc, def]) => (
+            ['VIRTUAL_ENV', 'The active virtualenv; takes precedence over ./.venv for installs', 'Detected from environment'],
+            ['PACKSAFE_LOG_LEVEL', 'Log level: DEBUG, INFO, WARNING, or ERROR. Unrecognised values fall back to INFO', 'INFO'],
+            ['PACKSAFE_LOG_FILE', 'Destination path for trace logs', './.packsafe/logs/packsafe.log'],
+            ['GITHUB_TOKEN', 'Optional personal access token; raises GitHub API rate limit from 60 req/hr', 'None'],
+          ].map(([env, purp, def]) => (
             <TR key={env}>
               <TD><Code>{env}</Code></TD>
-              <TD>{desc}</TD>
-              <TD>{def}</TD>
+              <TD>{purp}</TD>
+              <TD><span style={{ color: 'rgba(240,237,232,0.45)' }}>{def}</span></TD>
             </TR>
           ))}
         </TBody>
       </Table>
 
-      <H2 id="signal-weights">Customizing signal weights</H2>
+      <H2 id="reproducibility">Reproducibility & Config Digest</H2>
       <P>
-        Signal weights must sum to exactly <Code>1.0</Code>. PackSafe validates the config file on
-        startup and emits an error if weights are invalid.
+        The PackSafe scoring engine is deterministic and configuration-driven. Every weight, metric,
+        gate, normalization rule, and freshness TTL lives in <Code>scoring/config/*.yaml</Code> inside the
+        package.
       </P>
-      <CodeBlock lang="json">
-{`{
-  "signals": {
-    "maintenance":     { "weight": 0.15, "enabled": true },
-    "vulnerabilities": { "weight": 0.35, "enabled": true },
-    "authenticity":    { "weight": 0.30, "enabled": true },
-    "community_trust": { "weight": 0.10, "enabled": true },
-    "install_behavior":{ "weight": 0.10, "enabled": true }
-  }
-}`}
+      <P>
+        Each run prints a <strong>SHA-256 digest</strong> over that configuration set in the report footer,
+        alongside the engine version and a UTC timestamp:
+      </P>
+      <CodeBlock lang="text">
+{`Coverage: 94% · Engine: 0.1.2 · SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`}
       </CodeBlock>
-
-      <Callout type="tip">
-        For security-focused environments, consider increasing the weight of{' '}
-        <Code>vulnerabilities</Code> and <Code>authenticity</Code> at the expense of{' '}
-        <Code>community_trust</Code>, which can penalize legitimate but niche packages.
-      </Callout>
-
-      <H2 id="validate">Validating your config</H2>
-      <CodeBlock lang="bash">
-{`packsafe config validate
-# → ✓ .packsafe.json is valid
-
-packsafe config show
-# → Prints the merged effective config (project + user defaults)`}
-      </CodeBlock>
+      <P>
+        This guarantees that any score can be reproduced, verified, or challenged months later by anyone
+        possessing the same PackSafe version and configuration digest.
+      </P>
     </Prose>
   )
 }

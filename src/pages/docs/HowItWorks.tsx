@@ -1,16 +1,17 @@
 import {
   Prose, H1, H2, H3, P, Lead, Code, CodeBlock, Callout, UL, LI, SectionLabel,
+  Table, THead, TBody, TR, TH, TD, Badge,
 } from '@/components/Markdown'
 
 const pipeline = [
-  { step: '01', title: 'Input resolution', desc: 'PackSafe parses the package name and optional version constraint from the install command. Version ranges are resolved against the registry index to a pinned version.' },
-  { step: '02', title: 'Existence check', desc: 'The package name is looked up against npm, PyPI, and any configured private registries. If no match is found, hallucination scoring begins and similar names are surfaced.' },
-  { step: '03', title: 'Similarity analysis', desc: 'The package name is fuzzy-matched against the top 100k packages by download volume. Edit distance, phonetic similarity, and visual glyph similarity are all evaluated to detect typosquatting.' },
-  { step: '04', title: 'Provenance verification', desc: 'Maintainer PGP keys are verified against the registry. Source maps are cross-referenced with the declared source repository. Publish timestamps are compared to git tag history.' },
-  { step: '05', title: 'Vulnerability evaluation', desc: 'The exact pinned version is checked against NVD, OSV, GitHub Advisory Database, and Snyk\'s database. The full dependency tree is evaluated recursively.' },
-  { step: '06', title: 'Behavior analysis', desc: 'Install lifecycle scripts are extracted and statically analyzed. Network calls in preinstall and postinstall scripts are flagged. Dependency count anomalies are scored.' },
-  { step: '07', title: 'Score aggregation', desc: 'Each signal category produces an independent 0–100 score. A weighted harmonic mean is computed. The category breakdown is always exposed alongside the aggregate.' },
-  { step: '08', title: 'Decision output', desc: 'The safety verdict (INSTALL / WARN / BLOCK) is presented with full signal breakdown. In non-interactive mode, a non-zero exit code is emitted on BLOCK.' },
+  { step: '01', title: 'Input resolution', desc: 'PackSafe parses the package name and optional target version from the command. Pinned versions or latest releases are resolved directly against the registry index.' },
+  { step: '02', title: 'Existence & registry check', desc: 'The package name is looked up against PyPI. If no match is found, hallucination scoring begins and typosquatting signals are triggered.' },
+  { step: '03', title: 'Similarity & typosquat analysis', desc: 'The package name is fuzzy-matched against high-reputation packages to catch transposed letters, punctuation variations, and known malicious impersonation patterns.' },
+  { step: '04', title: 'Provenance & integrity verification', desc: 'Maintainer identity signals, wheel and sdist hashes, git repository links, and publish histories are collected and validated for tampering or account-takeover indicators.' },
+  { step: '05', title: 'Multi-source vulnerability scanning', desc: 'OSV.dev, GitHub Advisories, CISA KEV (known exploited catalog), and FIRST EPSS (exploit probability) are queried concurrently to gauge vulnerability danger.' },
+  { step: '06', title: 'Static source analysis', desc: 'If the package archive is under 50 MB, PackSafe downloads the source into a temporary sandbox and performs AST and pattern-based static analysis for suspicious constructs.' },
+  { step: '07', title: 'Score aggregation', desc: 'Evidence is normalized into five weighted categories (Security, Integrity, Supply chain, Maintenance, Adoption). An objective, reproducible Safety Score (0–100) is computed.' },
+  { step: '08', title: 'Security gates & policy verdict', desc: 'Non-compensable policy gates (e.g. GATE-MALWARE) evaluate hard limits. A final verdict (SAFE, LOW, MODERATE, HIGH, CRITICAL) and installation decision are rendered.' },
 ]
 
 export default function HowItWorks() {
@@ -19,13 +20,13 @@ export default function HowItWorks() {
       <SectionLabel>OVERVIEW · 02</SectionLabel>
       <H1>How it works</H1>
       <Lead>
-        Every PackSafe analysis runs eight sequential evaluation stages before a verdict is issued.
+        Every PackSafe analysis runs eight sequential evaluation stages before an installation verdict is issued.
         No stage is skipped, even when earlier stages already indicate risk.
       </Lead>
 
       <Callout type="note">
-        All evaluation is performed against registry APIs and static package metadata.
-        PackSafe never installs or executes the package code itself during analysis.
+        All evaluation is performed against external evidence APIs and isolated static analysis.
+        PackSafe never installs or executes package code directly in your active project environment during analysis.
       </Callout>
 
       <H2 id="analysis-pipeline">The analysis pipeline</H2>
@@ -84,74 +85,92 @@ export default function HowItWorks() {
 
       <H2 id="scoring-model">Scoring model</H2>
       <P>
-        Signal categories are scored independently before aggregation. The aggregate score is a
-        weighted harmonic mean that penalizes low-scoring categories more harshly than a simple average would.
+        PackSafe evaluates packages across five weighted categories. Category weights are deterministic,
+        configured in the scoring engine, and must sum to exactly <Code>1.00</Code>:
       </P>
-      <CodeBlock lang="text" title="SCORE WEIGHTS">
-{`Maintenance Health      0.20
-Vulnerability Exposure  0.25
-Authenticity            0.25
-Community Trust         0.15
-Install Behavior        0.15`}
-      </CodeBlock>
+      <Table>
+        <THead>
+          <TR>
+            <TH>Category</TH>
+            <TH>Weight</TH>
+            <TH>Focus</TH>
+          </TR>
+        </THead>
+        <TBody>
+          {[
+            ['Security', '0.40', 'Known vulnerabilities, exploitability, malicious code patterns'],
+            ['Integrity', '0.25', 'Reproducibility, signature and hash consistency, provenance'],
+            ['Supply chain', '0.20', 'Maintainer behaviour, account takeover signals, dependency risk'],
+            ['Maintenance', '0.10', 'Release cadence, responsiveness, project health'],
+            ['Adoption', '0.05', 'Download volume, dependents, ecosystem presence'],
+          ].map(([cat, weight, focus]) => (
+            <TR key={cat}>
+              <TD><strong style={{ color: '#f0ede8' }}>{cat}</strong></TD>
+              <TD><Code>{weight}</Code></TD>
+              <TD>{focus}</TD>
+            </TR>
+          ))}
+        </TBody>
+      </Table>
 
-      <Callout type="warning">
-        A package can score 100 on four categories and still be blocked if <Code>Vulnerability Exposure</Code>{' '}
-        or <Code>Authenticity</Code> drops below the configured block threshold.
-        The harmonic mean amplifies dangerous low scores.
-      </Callout>
-
-      <H2 id="decision-thresholds">Decision thresholds</H2>
-      <P>
-        The default thresholds can be overridden in <Code>.packsafe.json</Code>. See the{' '}
-        <a href="/docs/configuration" style={{ color: '#ff3a00', textDecoration: 'none' }}>Configuration</a> reference.
-      </P>
-
-      <div style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#0e0e0e', marginBottom: '24px' }}>
-        {[
-          { range: '90–100', verdict: 'INSTALL', color: '#00cc55', desc: 'Low risk. Installation proceeds automatically.' },
-          { range: '70–89', verdict: 'WARN', color: '#ffaa00', desc: 'Moderate risk. Interactive prompt asks for confirmation.' },
-          { range: '0–69', verdict: 'BLOCK', color: '#ff3a00', desc: 'High risk. Installation is blocked. Non-zero exit code.' },
-        ].map(row => (
-          <div
-            key={row.verdict}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '80px 90px 1fr',
-              gap: '16px',
-              padding: '14px 18px',
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
-              alignItems: 'center',
-            }}
-          >
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', color: 'rgba(240,237,232,0.4)' }}>
-              {row.range}
-            </span>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: row.color, letterSpacing: '0.1em' }}>
-              {row.verdict}
-            </span>
-            <span style={{ fontSize: '13px', color: 'rgba(240,237,232,0.45)' }}>{row.desc}</span>
-          </div>
-        ))}
-      </div>
+      <H2 id="decision-thresholds">Score & risk bands</H2>
+      <Table>
+        <THead>
+          <TR>
+            <TH>Score</TH>
+            <TH>Risk Level</TH>
+            <TH>Action</TH>
+          </TR>
+        </THead>
+        <TBody>
+          {[
+            ['90–100', 'SAFE', 'green', 'SAFE TO INSTALL — No blocking signals found'],
+            ['75–89', 'LOW', 'green', 'REVIEW BEFORE INSTALLING — Minor advisories noted'],
+            ['60–74', 'MODERATE', 'amber', 'INSTALL WITH CAUTION — Confirmation prompt required (default: No)'],
+            ['40–59', 'HIGH', 'amber', 'INSTALL WITH CAUTION / BLOCKED — Requires explicit approval or --yes'],
+            ['0–39', 'CRITICAL', 'red', 'DO NOT INSTALL — Installation refused, exit code 4'],
+          ].map(([score, risk, variant, action]) => (
+            <TR key={score}>
+              <TD><Code>{score}</Code></TD>
+              <TD><Badge variant={variant as any}>{risk}</Badge></TD>
+              <TD>{action}</TD>
+            </TR>
+          ))}
+        </TBody>
+      </Table>
 
       <H2 id="data-sources">Data sources</H2>
-      <UL>
-        <LI><strong>npm registry</strong> — package metadata, maintainer records, publish history, and dependency manifests.</LI>
-        <LI><strong>PyPI</strong> — same set of signals for Python packages.</LI>
-        <LI><strong>NVD / NIST</strong> — National Vulnerability Database CVE records.</LI>
-        <LI><strong>OSV</strong> — Open Source Vulnerabilities database across all major ecosystems.</LI>
-        <LI><strong>GitHub Advisory Database</strong> — maintainer-reported and community-reported security advisories.</LI>
-        <LI><strong>Snyk Advisor</strong> — maintenance health and popularity signals.</LI>
-        <LI><strong>Libraries.io</strong> — SourceRank, dependent repository count, and release history.</LI>
-      </UL>
+      <Table>
+        <THead>
+          <TR>
+            <TH>Source</TH>
+            <TH>What it contributes</TH>
+          </TR>
+        </THead>
+        <TBody>
+          {[
+            ['PyPI', 'Release metadata, maintainers, dependencies, license, download counts'],
+            ['OSV.dev', 'Vulnerability advisories across ecosystems'],
+            ['CISA KEV', 'Confirmed, actively exploited vulnerabilities (pre-cached via packsafe init)'],
+            ['FIRST EPSS', 'Exploit Prediction Scoring System — probability of active exploitation'],
+            ['GitHub', 'Repository activity, issues, releases, ownership'],
+            ['deps.dev', 'Dependency graph and OpenSSF Scorecard data'],
+            ['Source archive', 'Static analysis of downloaded source archive (capped at 50 MB)'],
+          ].map(([source, contrib]) => (
+            <TR key={source}>
+              <TD><strong style={{ color: '#f0ede8' }}>{source}</strong></TD>
+              <TD>{contrib}</TD>
+            </TR>
+          ))}
+        </TBody>
+      </Table>
 
-      <H3>Update frequency</H3>
-      <P>
-        Vulnerability databases are synchronized every 4 hours. Registry metadata is fetched live on
-        each analysis request and is not cached beyond the current session. Safety Scores are
-        deterministic for a given package version and database snapshot.
-      </P>
+      <Callout type="tip">
+        Learn more about each formula and invariant in the{' '}
+        <a href="/docs/score-engine" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+          Score Engine technical specification →
+        </a>
+      </Callout>
     </Prose>
   )
 }

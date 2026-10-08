@@ -9,8 +9,8 @@ export default function Introduction() {
       <SectionLabel>OVERVIEW · 01</SectionLabel>
       <H1>Introduction</H1>
       <Lead>
-        PackSafe is a developer-first safety layer between AI-generated code and package installation.
-        It analyzes open-source dependencies before they reach your system.
+        PackSafe is a security gatekeeper for the open-source software supply chain.
+        It evaluates a package before installation, gives it a safety score out of 100, explains exactly which checks fired, and then either installs the package or refuses to.
       </Lead>
 
       <H2 id="what-is-packsafe">What is PackSafe?</H2>
@@ -27,34 +27,34 @@ export default function Introduction() {
 
       <Callout type="tip">
         PackSafe does not replace your package manager. It wraps it. Running{' '}
-        <Code>packsafe install express</Code> behaves identically to{' '}
-        <Code>npm install express</Code> — with a mandatory safety gate before installation proceeds.
+        <Code>packsafe install --uv requests</Code> (or <Code>--pip</Code>) evaluates the package against
+        all evidence sources first, requiring explicit confirmation on warnings, and refusing outright on critical policy violations.
       </Callout>
 
       <H2 id="key-features">Key features</H2>
       <UL>
-        <LI><strong>Hallucination detection</strong> — identifies packages that do not exist in any known registry.</LI>
-        <LI><strong>Typosquatting detection</strong> — fuzzy-matches against the intended package to surface look-alike names.</LI>
-        <LI><strong>Vulnerability scanning</strong> — checks all known CVE databases against the exact version you are installing.</LI>
-        <LI><strong>Behavior analysis</strong> — inspects install lifecycle scripts, outbound network calls, and dependency anomalies.</LI>
-        <LI><strong>Safety Score</strong> — a fully explainable, multi-signal score across five independent categories.</LI>
-        <LI><strong>Semantic search</strong> — find packages by describing what you need rather than knowing the exact name.</LI>
-        <LI><strong>API access</strong> — integrate safety analysis into your own pipelines, CI systems, and tooling.</LI>
+        <LI><strong>Pre-execution gatekeeping</strong> — inspects package metadata and source code before any install command runs.</LI>
+        <LI><strong>Hallucination & typosquatting detection</strong> — catches made-up packages and impersonation attempts.</LI>
+        <LI><strong>Multi-source vulnerability scanning</strong> — aggregates OSV.dev, GitHub Advisories, CISA KEV, and FIRST EPSS.</LI>
+        <LI><strong>Static source analysis</strong> — unpacks source archives (up to 50 MB) in a temporary sandbox to inspect setup scripts and code.</LI>
+        <LI><strong>Explainable Safety Score</strong> — deterministic 0–100 score across five weighted categories, signed with a configuration digest.</LI>
+        <LI><strong>Hard policy gates</strong> — critical gates (e.g., malware or active exploits) block installation regardless of popularity.</LI>
+        <LI><strong>Privacy-first & self-contained</strong> — nothing uploaded, no account needed, and no credentials required for read-only operations.</LI>
       </UL>
 
-      <H2 id="signal-categories">Signal categories</H2>
+      <H2 id="signal-categories">Signal categories & weights</H2>
       <P>
         The PackSafe Safety Score is composed of five independently evaluated signal categories.
-        Each category is scored 0–100 and combined into an overall assessment.
+        Weights sum to exactly <Code>1.00</Code> and are validated by the engine at load time:
       </P>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
         {[
-          { name: 'Maintenance Health', desc: 'Recent commits, release cadence, open issue ratio, abandoned signal detection.' },
-          { name: 'Vulnerability Exposure', desc: 'Known CVEs across all NVD, OSV, and GitHub Advisory databases.' },
-          { name: 'Authenticity', desc: 'Registry provenance, maintainer key verification, source map consistency.' },
-          { name: 'Community Trust', desc: 'Download volume, dependent count, SourceRank, GitHub stars and fork ratio.' },
-          { name: 'Install Behavior', desc: 'Preinstall/postinstall script analysis, network calls, dependency anomalies.' },
+          { name: 'Security (40%)', desc: 'Known vulnerabilities, exploitability (EPSS), active KEV catalog listings, and malicious patterns.' },
+          { name: 'Integrity (25%)', desc: 'Reproducibility, wheel and sdist hash consistency, signature verification, and provenance.' },
+          { name: 'Supply Chain (20%)', desc: 'Maintainer behavior, account takeover signals, release anomalies, and dependency tree risk.' },
+          { name: 'Maintenance (10%)', desc: 'Release cadence, responsiveness to issues, commit activity, and repository health.' },
+          { name: 'Adoption (5%)', desc: 'Download volume, dependent projects, and presence across the ecosystem.' },
         ].map(s => (
           <div
             key={s.name}
@@ -75,18 +75,17 @@ export default function Introduction() {
       <H2 id="design-principles">Design principles</H2>
       <H3>Explainability over opacity</H3>
       <P>
-        Every score is decomposed into its constituent signals. You always know <em>why</em> a package
-        scored the way it did, not just that it did.
+        Every score is decomposed into its constituent signals and policy gates. You always know <em>why</em> a package
+        scored the way it did, not just the final number.
       </P>
       <H3>Analysis before execution</H3>
       <P>
         No package code runs before the safety gate clears. PackSafe fetches and evaluates metadata
-        entirely from registry APIs and static analysis — your machine is never the test environment.
+        entirely from registry APIs and isolated static analysis — your machine is never the test environment.
       </P>
       <H3>Developer-native interface</H3>
       <P>
-        PackSafe is built around the CLI. The web UI and API are extensions of the same interface, not
-        replacements for it. Every workflow is completable from the terminal.
+        PackSafe is built around the CLI. It fits directly into workflows using <Code>uv</Code> and <Code>pip</Code> inside Python virtual environments.
       </P>
 
       <Hr />
@@ -94,30 +93,30 @@ export default function Introduction() {
       <H2 id="next-steps">Next steps</H2>
       <UL>
         <LI>
-          <Link to="/docs/how-it-works" style={{ color: '#ff3a00', textDecoration: 'none' }}>
-            How it works
-          </Link>{' '}
-          — understand the full analysis pipeline.
-        </LI>
-        <LI>
           <Link to="/docs/installation" style={{ color: '#ff3a00', textDecoration: 'none' }}>
-            Install PackSafe
+            Installation
           </Link>{' '}
-          — get the CLI running in under 30 seconds.
+          — install PackSafe via <Code>uv tool</Code> or <Code>pipx</Code>.
         </LI>
         <LI>
           <Link to="/docs/quickstart" style={{ color: '#ff3a00', textDecoration: 'none' }}>
             Quick start
           </Link>{' '}
-          — run your first package analysis.
+          — analyze and install your first package.
+        </LI>
+        <LI>
+          <Link to="/docs/how-it-works" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            How it works
+          </Link>{' '}
+          — understand the full eight-stage analysis pipeline.
+        </LI>
+        <LI>
+          <Link to="/docs/cli" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            CLI Reference
+          </Link>{' '}
+          — complete reference for every command, option, and exit code.
         </LI>
       </UL>
-
-      <div style={{ marginTop: '40px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        <Badge variant="green">Stable</Badge>
-        <Badge>v0.9.2</Badge>
-        <Badge variant="blue">MIT License</Badge>
-      </div>
     </Prose>
   )
 }

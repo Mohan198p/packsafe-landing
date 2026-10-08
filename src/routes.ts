@@ -35,6 +35,7 @@ export const router = createBrowserRouter([
       { path: 'score-engine', Component: ScoreEngine },
       { path: 'installation', Component: Installation },
       { path: 'quickstart', Component: Quickstart },
+      { path: 'cli', Component: CLI },
       { path: 'cli/:command', Component: CLI },
       { path: 'api/:endpoint', Component: API },
       { path: 'configuration', Component: Configuration },

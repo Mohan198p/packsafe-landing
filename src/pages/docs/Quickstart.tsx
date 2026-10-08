@@ -1,6 +1,8 @@
 import {
-  Prose, H1, H2, H3, P, Lead, Code, CodeBlock, Callout, UL, LI, SectionLabel, Hr,
+  Prose, H1, H2, H3, P, Lead, Code, CodeBlock, Callout, UL, LI, SectionLabel, Hr, Badge,
+  Table, THead, TBody, TR, TH, TD,
 } from '@/components/Markdown'
+import { Link } from 'react-router'
 
 export default function Quickstart() {
   return (
@@ -8,145 +10,178 @@ export default function Quickstart() {
       <SectionLabel>GETTING STARTED · 02</SectionLabel>
       <H1>Quick start</H1>
       <Lead>
-        Run your first package analysis in under a minute. This guide walks through the three most
-        common PackSafe workflows.
+        Run your first package analysis and guarded installation in under a minute.
+        This guide walks through the primary PackSafe CLI workflows.
       </Lead>
 
       <Callout type="note">
         This guide assumes PackSafe is installed. If not, see the{' '}
-        <a href="/docs/installation" style={{ color: '#ff3a00', textDecoration: 'none' }}>Installation</a> page first.
+        <Link to="/docs/installation" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+          Installation guide
+        </Link>{' '}
+        first.
       </Callout>
 
-      <H2 id="analyze-before-install">Analyze before installing</H2>
+      <H2 id="first-run">1. Initialize local cache</H2>
       <P>
-        Use <Code>packsafe install</Code> as a drop-in replacement for <Code>npm install</Code>.
-        PackSafe runs the full analysis pipeline and presents the verdict before installation proceeds.
+        Run <Code>packsafe init</Code> to set up the local configuration, SQLite cache, and pre-cache the CISA KEV catalog for offline operation:
       </P>
       <CodeBlock lang="bash" title="TERMINAL">
-{`$ packsafe install express
+{`$ packsafe init
 
-Analyzing express@5.1.0...
+PACKSAFE
+Initializing PackSafe
 
-Safety Score       96/100
-Maintenance         98
-Vulnerabilities    100
-Authenticity         99
-Community Trust      94
-Install Behavior     92
-
-✓  Low risk
-
-Continue? [Y/n] Y
-
-+ express@5.1.0
-added 31 packages in 1.8s`}
+Preparing PackSafe...
+Cached 1842 CISA KEV entries for offline use.
+Config: ~/.packsafe/config.toml
+Cache: ~/.packsafe/cache.db
+✓ PackSafe initialized successfully`}
       </CodeBlock>
 
-      <H2 id="blocking-scenario">What a blocked install looks like</H2>
+      <H2 id="analyze-before-install">2. Analyze before installing</H2>
       <P>
-        If PackSafe detects a hallucinated, typosquatted, or high-risk package, the installation is blocked
-        and alternatives are surfaced.
+        To evaluate a package's supply-chain security without installing it, use <Code>packsafe analyze</Code>:
       </P>
       <CodeBlock lang="bash" title="TERMINAL">
-{`$ packsafe install fastapi-security-utils
+{`$ packsafe analyze requests
 
-Analyzing package...
+============================================================
+PACKSAFE ANALYSIS: requests @ 2.32.3
+============================================================
 
-✗  PACKAGE NOT FOUND
+VERDICT: SAFE TO INSTALL (Safety Score: 96/100 · LOW RISK)
 
-This package does not exist in the npm or PyPI registry.
-Possible AI-hallucinated dependency.
+CHECKS:
+  ✓ Known vulnerabilities: 0 affecting v2.32.3
+  ✓ Integrity check: Consistent wheel signatures & hashes
+  ✓ Provenance: Verified PyPI publisher & git repository
+  ✓ Typosquatting: High-entropy canonical name
 
-Did you mean?
-→  fastapi-utils      (94/100)
-→  fastapi            (97/100)
+POLICY GATES:
+  ✓ GATE-MALWARE: Passed
+  ✓ GATE-ACTIVE-CRITICAL: Passed
+  ✓ GATE-CREDENTIAL-THEFT: Passed
 
-Recommended alternative: fastapi-utils
-
-Installation blocked. Exit code 1.`}
+RECOMMENDATION: Package is safe for standard development environments.
+------------------------------------------------------------
+Coverage: 94% (tier: deep_static) · Engine: 0.1.2 · SHA-256: e3b0c44...`}
       </CodeBlock>
 
-      <H2 id="analyze-only">Analyze without installing</H2>
+      <H2 id="blocking-scenario">3. What a blocked install looks like</H2>
       <P>
-        To inspect a package without installing it, use <Code>packsafe analyze</Code>.
-        Useful for auditing dependencies listed in a manifest file.
+        When you attempt to install a package that violates security policy or triggers a critical gate,
+        PackSafe refuses the installation with exit code <Code>4</Code>:
+      </P>
+      <CodeBlock lang="bash" title="TERMINAL">
+{`$ packsafe install --uv malicious-typosquat
+
+============================================================
+PACKSAFE ANALYSIS: malicious-typosquat @ 0.1.0
+============================================================
+
+VERDICT: DO NOT INSTALL (Safety Score: 12/100 · CRITICAL)
+
+POLICY GATES:
+  ✗ GATE-MALWARE: Blocked (score floored at 5)
+    Reason: Suspicious base64 execution in setup.py
+
+RECOMMENDATION: DO NOT INSTALL. Active malware pattern detected.
+
+Refusing to install. Blocked by policy.
+Exited with code 4.`}
+      </CodeBlock>
+
+      <H2 id="inspect-evidence">4. Inspect raw evidence</H2>
+      <P>
+        Want to see the underlying telemetry rather than a verdict? Use <Code>packsafe inspect</Code> to view
+        all 11 evidence sections — including vulnerabilities split by affected versus non-affected versions:
       </P>
       <CodeBlock lang="bash">
-{`# Analyze a single package
-packsafe analyze lodash
+{`# Inspect raw evidence for a package
+packsafe inspect requests
 
-# Analyze a specific version
-packsafe analyze lodash@4.17.21
-
-# Analyze all packages in package.json
-packsafe analyze --manifest package.json
-
-# Output as JSON for scripting
-packsafe analyze express --format json`}
+# Inspect a specific version with all findings displayed
+packsafe inspect django -V 5.2.8 --all`}
       </CodeBlock>
 
-      <H2 id="semantic-search">Find a package by description</H2>
+      <H2 id="safe-install">5. Safe installation with uv or pip</H2>
       <P>
-        Don't know the exact package name? Use <Code>packsafe search</Code> to find packages by
-        describing what you need. Results are ranked by relevance and Safety Score.
+        When installing packages, you must explicitly choose either <Code>--uv</Code> or <Code>--pip</Code>.
+        PackSafe evaluates the package and then safely invokes your package manager inside your active virtual environment:
       </P>
-      <CodeBlock lang="bash" title="TERMINAL">
-{`$ packsafe search "python package for building an http server"
+      <CodeBlock lang="bash">
+{`# Standard install with uv
+packsafe install --uv requests
 
-SEMANTIC PACKAGE SEARCH
+# Standard install with pip
+packsafe install --pip requests
 
-01  fastapi         97/100  Modern, fast web framework for Python APIs
-02  starlette       95/100  Lightweight ASGI framework
-03  flask           93/100  Lightweight WSGI web framework
-04  aiohttp         88/100  Async HTTP client/server for asyncio
-05  tornado         85/100  Web framework and async networking library
+# Tighten policy: refuse any package scoring under 90
+packsafe install --uv django --min-score 90
 
-Run 'packsafe analyze <name>' for the full signal breakdown.`}
+# Non-interactive / CI (auto-accept warnings)
+packsafe install --uv requests --yes
+
+# Add to pyproject.toml & uv.lock (uv only)
+packsafe install --uv requests --add`}
       </CodeBlock>
 
-      <H2 id="reading-output">Reading the output</H2>
-      <H3>Score interpretation</H3>
-      <div style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#0e0e0e', marginBottom: '24px' }}>
-        {[
-          { score: '90–100', label: 'LOW RISK', color: '#00cc55', desc: 'Install proceeds. No known threats.' },
-          { score: '70–89', label: 'MODERATE', color: '#ffaa00', desc: 'Confirm before installing. Read the breakdown.' },
-          { score: '0–69', label: 'HIGH RISK', color: '#ff3a00', desc: 'Installation blocked by default.' },
-        ].map(row => (
-          <div
-            key={row.score}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '70px 100px 1fr',
-              gap: '16px',
-              padding: '12px 16px',
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
-              alignItems: 'center',
-            }}
-          >
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: 'rgba(240,237,232,0.35)' }}>{row.score}</span>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: row.color }}>{row.label}</span>
-            <span style={{ fontSize: '13px', color: 'rgba(240,237,232,0.45)' }}>{row.desc}</span>
-          </div>
-        ))}
-      </div>
-
-      <H3>Signal categories</H3>
-      <UL>
-        <LI><Code>Maintenance</Code> — recency of commits, release frequency, issue resolution rate.</LI>
-        <LI><Code>Vulnerabilities</Code> — CVE count and severity in this version and dependency tree.</LI>
-        <LI><Code>Authenticity</Code> — registry provenance, key verification, source consistency.</LI>
-        <LI><Code>Community Trust</Code> — download volume, dependent count, SourceRank.</LI>
-        <LI><Code>Install Behavior</Code> — lifecycle script risk, network calls, anomalies.</LI>
-      </UL>
+      <H2 id="reading-output">Reading the output: score & risk bands</H2>
+      <Table>
+        <THead>
+          <TR>
+            <TH>Score</TH>
+            <TH>Risk Level</TH>
+            <TH>Action</TH>
+          </TR>
+        </THead>
+        <TBody>
+          {[
+            ['90–100', 'SAFE', 'green', 'Installs immediately without warnings.'],
+            ['75–89', 'LOW', 'green', 'Installs immediately; review advisory notes.'],
+            ['60–74', 'MODERATE', 'amber', 'Prompts confirmation before installation (default: No).'],
+            ['40–59', 'HIGH', 'amber', 'Requires explicit confirmation or --yes.'],
+            ['0–39', 'CRITICAL', 'red', 'Refused by default. Exit code 4.'],
+          ].map(([score, risk, variant, action]) => (
+            <TR key={score}>
+              <TD><Code>{score}</Code></TD>
+              <TD><Badge variant={variant as any}>{risk}</Badge></TD>
+              <TD>{action}</TD>
+            </TR>
+          ))}
+        </TBody>
+      </Table>
 
       <Hr />
 
       <H2 id="next-steps">Next steps</H2>
       <UL>
-        <LI><a href="/docs/cli/install" style={{ color: '#ff3a00', textDecoration: 'none' }}>CLI Reference — packsafe install</a></LI>
-        <LI><a href="/docs/cli/analyze" style={{ color: '#ff3a00', textDecoration: 'none' }}>CLI Reference — packsafe analyze</a></LI>
-        <LI><a href="/docs/configuration" style={{ color: '#ff3a00', textDecoration: 'none' }}>Configuration</a> — customize thresholds and behavior</LI>
-        <LI><a href="/docs/integrations" style={{ color: '#ff3a00', textDecoration: 'none' }}>Integrations</a> — add PackSafe to GitHub Actions or pre-commit</LI>
+        <LI>
+          <Link to="/docs/cli/install" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            packsafe install Reference →
+          </Link>
+        </LI>
+        <LI>
+          <Link to="/docs/cli/analyze" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            packsafe analyze Reference →
+          </Link>
+        </LI>
+        <LI>
+          <Link to="/docs/cli/inspect" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            packsafe inspect Reference →
+          </Link>
+        </LI>
+        <LI>
+          <Link to="/docs/cli/exit-codes" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            Exit Codes & CI Usage →
+          </Link>
+        </LI>
+        <LI>
+          <Link to="/docs/configuration" style={{ color: '#ff3a00', textDecoration: 'none' }}>
+            Configuration & Logging →
+          </Link>
+        </LI>
       </UL>
     </Prose>
   )
