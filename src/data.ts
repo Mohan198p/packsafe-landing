@@ -48,7 +48,7 @@ export const depNodes: DNode[] = [
 ]
 
 export const tools = [
-    { tag: 'CLI', headline: 'Analyze and install\nfrom the terminal.', desc: 'Drop-in replacement for npm install and pip install. Identical interface, full safety analysis before execution.', code: '$ npm install -g packsafe' },
+    { tag: 'CLI', headline: 'Analyze and install\nfrom the terminal.', desc: 'Drop-in security gatekeeper for pip and uv. Full safety analysis before package installation.', code: '$ uv tool install packsafe' },
     { tag: 'WEB', headline: 'Search and explore\npackage intelligence.', desc: 'Browser-based package explorer with full signal breakdown, CVE history, dependency maps, and semantic search.', code: 'packsafe.dev/package/express' },
     { tag: 'API', headline: 'Integrate into\nyour own workflows.', desc: 'REST and webhook API for CI/CD pipelines, PR checks, and internal tooling. Returns structured safety payloads.', code: 'GET /v1/analyze?pkg=express' },
     { tag: 'PRE-COMMIT', headline: 'Block dangerous\npackages before commit.', desc: 'Pre-commit hook that scans any package.json or requirements.txt change and blocks commits that introduce risk.', code: '$ packsafe hook install' },

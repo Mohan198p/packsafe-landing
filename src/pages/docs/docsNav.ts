@@ -64,24 +64,24 @@ export const docsSidebar: NavSection[] = [
         path: '/docs/installation',
         items: [
           { label: 'System requirements', path: '/docs/installation', hash: '#requirements' },
-          { label: 'Install via npm', path: '/docs/installation', hash: '#npm' },
-          { label: 'Install via Homebrew', path: '/docs/installation', hash: '#homebrew' },
-          { label: 'Standalone binary', path: '/docs/installation', hash: '#binary' },
-          { label: 'Install for Python', path: '/docs/installation', hash: '#python' },
-          { label: 'Authentication', path: '/docs/installation', hash: '#auth' },
-          { label: 'Updating', path: '/docs/installation', hash: '#update' },
-          { label: 'Uninstalling', path: '/docs/installation', hash: '#uninstall' },
+          { label: 'Recommended: uv tool', path: '/docs/installation', hash: '#uv-tool' },
+          { label: 'Alternative: pipx', path: '/docs/installation', hash: '#pipx' },
+          { label: 'One-off: uvx', path: '/docs/installation', hash: '#uvx' },
+          { label: 'With pip into existing env', path: '/docs/installation', hash: '#pip' },
+          { label: 'Upgrade & uninstall', path: '/docs/installation', hash: '#upgrade-uninstall' },
+          { label: 'First run with init', path: '/docs/installation', hash: '#first-run' },
         ]
       },
       { 
         label: 'Quick start', 
         path: '/docs/quickstart',
         items: [
+          { label: 'First run with init', path: '/docs/quickstart', hash: '#first-run' },
           { label: 'Analyze before installing', path: '/docs/quickstart', hash: '#analyze-before-install' },
-          { label: 'Blocked install', path: '/docs/quickstart', hash: '#blocking-scenario' },
-          { label: 'Analyze without installing', path: '/docs/quickstart', hash: '#analyze-only' },
-          { label: 'Semantic search', path: '/docs/quickstart', hash: '#semantic-search' },
-          { label: 'Reading the output', path: '/docs/quickstart', hash: '#reading-output' },
+          { label: 'What a blocked install looks like', path: '/docs/quickstart', hash: '#blocking-scenario' },
+          { label: 'Inspect raw evidence', path: '/docs/quickstart', hash: '#inspect-evidence' },
+          { label: 'Safe install with uv or pip', path: '/docs/quickstart', hash: '#safe-install' },
+          { label: 'Score interpretation', path: '/docs/quickstart', hash: '#reading-output' },
           { label: 'Next steps', path: '/docs/quickstart', hash: '#next-steps' },
         ]
       },
@@ -91,13 +91,28 @@ export const docsSidebar: NavSection[] = [
     section: 'CLI Reference',
     items: [
       {
-        label: 'packsafe install',
-        path: '/docs/cli/install',
+        label: 'Overview & Global Options',
+        path: '/docs/cli',
         items: [
-          { label: 'Synopsis', path: '/docs/cli/install', hash: '#synopsis' },
-          { label: 'Flags', path: '/docs/cli/install', hash: '#flags' },
-          { label: 'Examples', path: '/docs/cli/install', hash: '#examples' },
-          { label: 'Exit codes', path: '/docs/cli/install', hash: '#exit-codes' },
+          { label: 'What PackSafe is', path: '/docs/cli', hash: '#what-packsafe-is' },
+          { label: 'Prerequisites', path: '/docs/cli', hash: '#prerequisites' },
+          { label: 'Global options', path: '/docs/cli', hash: '#global-options' },
+          { label: 'A note on --version', path: '/docs/cli', hash: '#note-on-version' },
+          { label: 'Shell completion', path: '/docs/cli', hash: '#shell-completion' },
+          { label: 'Commands at a glance', path: '/docs/cli', hash: '#commands-at-a-glance' },
+          { label: 'Evidence sources', path: '/docs/cli', hash: '#evidence-sources' },
+          { label: 'Score categories & weights', path: '/docs/cli', hash: '#score-categories' },
+          { label: 'Policy gates', path: '/docs/cli', hash: '#policy-gates' },
+        ]
+      },
+      {
+        label: 'packsafe init',
+        path: '/docs/cli/init',
+        items: [
+          { label: 'Synopsis', path: '/docs/cli/init', hash: '#synopsis' },
+          { label: 'What it creates', path: '/docs/cli/init', hash: '#what-it-creates' },
+          { label: 'What it prints', path: '/docs/cli/init', hash: '#what-it-prints' },
+          { label: 'Notes', path: '/docs/cli/init', hash: '#notes' },
         ]
       },
       {
@@ -105,27 +120,63 @@ export const docsSidebar: NavSection[] = [
         path: '/docs/cli/analyze',
         items: [
           { label: 'Synopsis', path: '/docs/cli/analyze', hash: '#synopsis' },
-          { label: 'Flags', path: '/docs/cli/analyze', hash: '#flags' },
+          { label: 'Options', path: '/docs/cli/analyze', hash: '#options' },
           { label: 'Examples', path: '/docs/cli/analyze', hash: '#examples' },
-          { label: 'JSON output', path: '/docs/cli/analyze', hash: '#json-output' },
+          { label: 'Output structure', path: '/docs/cli/analyze', hash: '#output-structure' },
+          { label: 'Score and risk bands', path: '/docs/cli/analyze', hash: '#score-bands' },
+          { label: '--all versus default', path: '/docs/cli/analyze', hash: '#all-flag' },
         ]
       },
       {
-        label: 'packsafe search',
-        path: '/docs/cli/search',
+        label: 'packsafe inspect',
+        path: '/docs/cli/inspect',
         items: [
-          { label: 'Synopsis', path: '/docs/cli/search', hash: '#synopsis' },
-          { label: 'Flags', path: '/docs/cli/search', hash: '#flags' },
-          { label: 'Examples', path: '/docs/cli/search', hash: '#examples' },
+          { label: 'Synopsis', path: '/docs/cli/inspect', hash: '#synopsis' },
+          { label: 'Options', path: '/docs/cli/inspect', hash: '#options' },
+          { label: 'Examples', path: '/docs/cli/inspect', hash: '#examples' },
+          { label: 'Output sections', path: '/docs/cli/inspect', hash: '#output-sections' },
+          { label: 'Bounds', path: '/docs/cli/inspect', hash: '#bounds' },
+          { label: 'Why the split matters', path: '/docs/cli/inspect', hash: '#split-matters' },
         ]
       },
       {
-        label: 'packsafe hook',
-        path: '/docs/cli/hook',
+        label: 'packsafe install',
+        path: '/docs/cli/install',
         items: [
-          { label: 'Synopsis', path: '/docs/cli/hook', hash: '#synopsis' },
-          { label: 'Installing', path: '/docs/cli/hook', hash: '#install' },
-          { label: 'Flags', path: '/docs/cli/hook', hash: '#flags' },
+          { label: 'Synopsis', path: '/docs/cli/install', hash: '#synopsis' },
+          { label: 'Options', path: '/docs/cli/install', hash: '#options' },
+          { label: 'Examples', path: '/docs/cli/install', hash: '#examples' },
+          { label: 'How the gate behaves', path: '/docs/cli/install', hash: '#gate-behavior' },
+          { label: 'The confirmation prompt', path: '/docs/cli/install', hash: '#confirmation-prompt' },
+          { label: 'Where an install lands', path: '/docs/cli/install', hash: '#install-target' },
+          { label: 'What command actually runs', path: '/docs/cli/install', hash: '#execution-details' },
+          { label: '--add flag', path: '/docs/cli/install', hash: '#add-flag' },
+          { label: 'Unknown flags forwarded', path: '/docs/cli/install', hash: '#forwarded-flags' },
+        ]
+      },
+      {
+        label: 'packsafe audit',
+        path: '/docs/cli/audit',
+        items: [
+          { label: 'Synopsis', path: '/docs/cli/audit', hash: '#synopsis' },
+          { label: 'Status & Implementation', path: '/docs/cli/audit', hash: '#status' },
+        ]
+      },
+      {
+        label: 'Exit codes',
+        path: '/docs/cli/exit-codes',
+        items: [
+          { label: 'Exit codes contract', path: '/docs/cli/exit-codes', hash: '#exit-codes-table' },
+          { label: 'Using exit codes in CI', path: '/docs/cli/exit-codes', hash: '#ci-usage' },
+        ]
+      },
+      {
+        label: 'Troubleshooting',
+        path: '/docs/cli/troubleshooting',
+        items: [
+          { label: 'Common errors & solutions', path: '/docs/cli/troubleshooting', hash: '#errors' },
+          { label: 'Limitations', path: '/docs/cli/troubleshooting', hash: '#limitations' },
+          { label: 'Building from source', path: '/docs/cli/troubleshooting', hash: '#building-from-source' },
         ]
       },
     ],
@@ -165,16 +216,13 @@ export const docsSidebar: NavSection[] = [
     section: 'Configuration',
     items: [
       {
-        label: 'Config file',
+        label: 'Configuration & Logging',
         path: '/docs/configuration',
         items: [
-          { label: 'Location', path: '/docs/configuration', hash: '#config-file' },
-          { label: 'Full schema', path: '/docs/configuration', hash: '#full-schema' },
-          { label: 'Thresholds', path: '/docs/configuration', hash: '#thresholds' },
-          { label: 'Allowlist & Blocklist', path: '/docs/configuration', hash: '#allowlist-blocklist' },
+          { label: 'Config file (~/.packsafe/config.toml)', path: '/docs/configuration', hash: '#config-file' },
+          { label: 'Logging configuration', path: '/docs/configuration', hash: '#logging' },
           { label: 'Environment variables', path: '/docs/configuration', hash: '#environment-variables' },
-          { label: 'Signal weights', path: '/docs/configuration', hash: '#signal-weights' },
-          { label: 'Validating config', path: '/docs/configuration', hash: '#validate' },
+          { label: 'Reproducibility & Config digest', path: '/docs/configuration', hash: '#reproducibility' },
         ]
       }
     ],
