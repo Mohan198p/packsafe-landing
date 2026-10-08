@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-ps-bg: #080808;
+  --color-ps-bg2: #0f0f0f;
+  --color-ps-text: #f0ede8;
+  --color-ps-muted: #6b6b6b;
+  --color-ps-border: rgba(255, 255, 255, 0.08);
+  --color-ps-red: #ff3a00;
+  --color-ps-green: #00cc55;
+  --color-ps-amber: #ffaa00;
+  --color-ps-card: #111111;
+}
+
+:root {
+  /* Dark Theme (Default) */
+  --bg-primary: #080808;
+  --bg-secondary: #0f0f0f;
+  --bg-card: #111111;
+  --bg-card-subtle: #161616;
+  --bg-input: #0e0e0e;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --text-primary: #f0ede8;
+  --text-secondary: #9e9b97;
+  --text-muted: #6b6b6b;
+  --text-subtle: #454545;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  
+  --accent-orange: #ff3a00;
+  --accent-orange-hover: #ff5a20;
+  --accent-orange-subtle: rgba(255, 58, 0, 0.12);
+  
+  --status-safe: #00cc55;
+  --status-safe-bg: rgba(0, 204, 85, 0.1);
+  --status-safe-border: rgba(0, 204, 85, 0.25);
+  
+  --status-warn: #ffaa00;
+  --status-warn-bg: rgba(255, 170, 0, 0.1);
+  --status-warn-border: rgba(255, 170, 0, 0.25);
+  
+  --status-danger: #ff3a00;
+  --status-danger-bg: rgba(255, 58, 0, 0.1);
+  --status-danger-border: rgba(255, 58, 0, 0.25);
+
+  --status-critical: #ff1f1f;
+  --status-critical-bg: rgba(255, 31, 31, 0.14);
+  --status-critical-border: rgba(255, 31, 31, 0.35);
+
+  --table-header-bg: #0b0b0b;
+  --table-row-hover: rgba(255, 255, 255, 0.025);
+  --code-bg: #090c09;
+}
+
+
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hide scrollbar but allow scroll */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animate bars */
+@keyframes growWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--target-width);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulseScanning {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scaleX(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.fade-up {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.scanning-pulse {
+  animation: pulseScanning 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
