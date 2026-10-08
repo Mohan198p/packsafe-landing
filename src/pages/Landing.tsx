@@ -9,8 +9,10 @@ import DependencyGraph from '@/components/sections/DependencyGraph'
 import AISearch from '@/components/sections/AiSearch'
 import { CLITerminal } from '@/components/sections/CLITerminal'
 import DevTooling from '@/components/sections/DevTooling'
-import Footer from '@/components/Footer'
+import ComparisonAndAudience from '@/components/sections/ComparisonAndAudience'
+import FAQSection from '@/components/sections/FAQSection'
 import FinalCTA from '@/components/CTA'
+import Footer from '@/components/Footer'
 
 export default function Landing() {
   return (
@@ -26,6 +28,8 @@ export default function Landing() {
       <AISearch />
       <CLITerminal />
       <DevTooling />
+      <ComparisonAndAudience />
+      <FAQSection />
       <FinalCTA />
       <Footer />
     </div>

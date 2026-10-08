@@ -41,7 +41,7 @@ export async function getPackageByName(name: string): Promise<Package | null> {
       score: 88,
       risk: 'low',
       dependenciesCount: 2,
-      registry: normalized.includes('-') ? 'npm' : 'PyPI',
+      registry: 'PyPI',
       lastUpdated: '2024-11-01',
       license: 'MIT',
       author: 'Ecosystem Contributor',

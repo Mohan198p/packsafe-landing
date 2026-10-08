@@ -217,9 +217,9 @@ export default function PackageSearch({
               }}
               aria-label="Filter by registry"
             >
-              <option value="all">All Registries</option>
-              <option value="npm">npm</option>
+              <option value="all">PyPI (Current)</option>
               <option value="pypi">PyPI</option>
+              <option value="npm" disabled>npm (Not supported yet)</option>
             </select>
           </div>
 
