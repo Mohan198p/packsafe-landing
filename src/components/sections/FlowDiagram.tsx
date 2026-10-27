@@ -5,9 +5,9 @@ import { useInView } from "@/hooks/useInView"
 export default function FlowDiagram() {
     const { ref, inView } = useInView(0.05)
     return (
-        <section ref={ref} className="py-32 px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
-                <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-20 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
                     <div>
                         <span
                             style={{
@@ -80,7 +80,7 @@ export default function FlowDiagram() {
                     </div>
 
                     {/* Under the hood flow steps */}
-                    <div className="p-8" style={{ background: '#0e0e0e', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="p-5 sm:p-8 min-w-0" style={{ background: '#0e0e0e', border: '1px solid rgba(255,255,255,0.08)' }}>
                         <div className="mb-6 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                             <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#ff3a00', letterSpacing: '0.1em' }}>
                                 UNDER THE HOOD

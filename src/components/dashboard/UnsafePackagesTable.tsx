@@ -66,14 +66,14 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
     >
       {/* Table Header Section */}
       <div
-        className="px-6 py-5 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+        className="px-4 sm:px-6 py-5 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-3"
         style={{
           borderColor: 'var(--status-danger-border)',
           backgroundColor: 'var(--bg-card)',
         }}
       >
         <div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
             <span
               className="w-2 h-2 rounded-full"
               style={{ backgroundColor: 'var(--status-danger)' }}
@@ -122,7 +122,7 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
             >
               <th
                 onClick={() => handleSort('name')}
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
+                className="py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
                 style={{ color: 'var(--text-muted)' }}
                 aria-sort={sortField === 'name' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
@@ -133,7 +133,7 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
               </th>
 
               <th
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider"
+                className="hidden md:table-cell py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider"
                 style={{ color: 'var(--text-muted)' }}
               >
                 Version
@@ -141,30 +141,31 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
 
               <th
                 onClick={() => handleSort('score')}
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
+                className="py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
                 style={{ color: 'var(--text-muted)' }}
                 aria-sort={sortField === 'score' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 <div className="flex items-center">
-                  <span>Safety Score</span>
-                  {renderSortIndicator('score')}
+                  <span className="hidden sm:inline whitespace-nowrap">Safety Score</span>
+                  <span className="sm:hidden">Score</span>
+                  <span className="hidden sm:inline">{renderSortIndicator('score')}</span>
                 </div>
               </th>
 
               <th
                 onClick={() => handleSort('risk')}
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
+                className="py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
                 style={{ color: 'var(--text-muted)' }}
                 aria-sort={sortField === 'risk' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 <div className="flex items-center">
                   <span>Risk</span>
-                  {renderSortIndicator('risk')}
+                  <span className="hidden sm:inline">{renderSortIndicator('risk')}</span>
                 </div>
               </th>
 
               <th
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider"
+                className="hidden lg:table-cell py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider"
                 style={{ color: 'var(--text-muted)' }}
               >
                 Reason
@@ -172,7 +173,7 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
 
               <th
                 onClick={() => handleSort('dependenciesCount')}
-                className="py-3 px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
+                className="hidden md:table-cell py-3 px-1.5 sm:px-4 text-left font-mono text-[11px] uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-[var(--text-primary)]"
                 style={{ color: 'var(--text-muted)' }}
                 aria-sort={sortField === 'dependenciesCount' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
@@ -183,7 +184,7 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
               </th>
 
               <th
-                className="py-3 px-4 text-right font-mono text-[11px] uppercase tracking-wider"
+                className="hidden sm:table-cell py-3 px-2 sm:px-4 text-right font-mono text-[11px] uppercase tracking-wider"
                 style={{ color: 'var(--text-muted)' }}
               >
                 Action
@@ -221,7 +222,7 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div
-          className="px-6 py-3.5 border-t flex items-center justify-between font-mono text-xs"
+          className="px-4 sm:px-6 py-3.5 border-t flex items-center justify-between gap-2 font-mono text-xs"
           style={{
             borderColor: 'var(--border-subtle)',
             backgroundColor: 'var(--bg-card-subtle)',
@@ -231,13 +232,13 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
             type="button"
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)]"
+            className="px-2 sm:px-3 py-1 font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)]"
             style={{
               color: 'var(--text-primary)',
               border: '1px solid var(--border-color)',
             }}
           >
-            ← Previous
+            ←<span className="hidden sm:inline"> Previous</span>
           </button>
 
           <div className="flex items-center gap-1.5">
@@ -266,13 +267,13 @@ export default function UnsafePackagesTable({ packages, loading = false }: Unsaf
             type="button"
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)]"
+            className="px-2 sm:px-3 py-1 font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)]"
             style={{
               color: 'var(--text-primary)',
               border: '1px solid var(--border-color)',
             }}
           >
-            Next →
+            <span className="hidden sm:inline">Next </span>→
           </button>
         </div>
       )}

@@ -59,7 +59,7 @@ export default function PackageStatusBadge({ risk, size = 'sm' }: PackageStatusB
   }
 
   const sizeClasses = {
-    sm: 'text-[11px] px-2 py-0.5 gap-1.5',
+    sm: 'text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 gap-1 sm:gap-1.5',
     md: 'text-xs px-2.5 py-1 gap-2',
     lg: 'text-sm px-3.5 py-1.5 gap-2.5',
   }[size]

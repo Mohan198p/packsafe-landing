@@ -25,7 +25,7 @@ export default function Terminal({ lines, started }: { lines: TLine[]; started: 
     }, [started])
 
     return (
-        <div style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm leading-6">
+        <div style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-[11px] leading-5 sm:text-sm sm:leading-6">
             {lines.slice(0, count).map((line, i) => (
                 <div
                     key={i}

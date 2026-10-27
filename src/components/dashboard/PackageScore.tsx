@@ -27,13 +27,13 @@ export default function PackageScore({ pkg }: PackageScoreProps) {
 
   return (
     <div
-      className="p-6 md:p-8 transition-all duration-200"
+      className="p-4 sm:p-6 md:p-8 transition-all duration-200"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border-color)',
       }}
     >
-      <div className="flex items-center justify-between mb-6 border-b pb-4" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div className="flex items-start sm:items-center justify-between gap-2 mb-6 border-b pb-4" style={{ borderColor: 'var(--border-subtle)' }}>
         <div>
           <span className="text-[10px] font-mono tracking-widest uppercase font-semibold" style={{ color: 'var(--accent-orange)' }}>
             EVALUATION REPORT

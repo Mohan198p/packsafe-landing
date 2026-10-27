@@ -32,7 +32,7 @@ export default function PackageOverview({ pkg }: PackageOverviewProps) {
 
   return (
     <div
-      className="p-6 md:p-8 transition-all duration-200"
+      className="p-4 sm:p-6 md:p-8 transition-all duration-200"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border-color)',
@@ -70,14 +70,14 @@ export default function PackageOverview({ pkg }: PackageOverviewProps) {
                 href={item.value}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono underline hover:text-[var(--accent-orange)] transition-colors truncate max-w-[240px]"
+                className="text-xs font-mono underline hover:text-[var(--accent-orange)] transition-colors truncate max-w-full"
                 style={{ color: 'var(--accent-orange)' }}
               >
                 {item.value} ↗
               </a>
             ) : (
               <span
-                className={`text-xs font-medium text-right sm:text-left truncate max-w-[280px] ${
+                className={`text-xs font-medium text-left truncate max-w-full ${
                   item.isMono ? 'font-mono' : ''
                 }`}
                 style={{

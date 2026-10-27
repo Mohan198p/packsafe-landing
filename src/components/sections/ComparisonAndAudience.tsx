@@ -6,10 +6,10 @@ export default function ComparisonAndAudience() {
     const { ref, inView } = useInView()
 
     return (
-        <section ref={ref} className="py-32 px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
                 {/* 10. How it is different */}
-                <div className="mb-24">
+                <div className="mb-14 sm:mb-24">
                     <span
                         style={{
                             fontFamily: 'JetBrains Mono, monospace',
@@ -19,7 +19,7 @@ export default function ComparisonAndAudience() {
                         }}
                         className="block mb-4 uppercase"
                     >
-                        10 · COMPARISON FRAMING
+                        09 · COMPARISON FRAMING
                     </span>
 
                     <h2
@@ -31,13 +31,64 @@ export default function ComparisonAndAudience() {
                             letterSpacing: '-0.02em',
                             color: '#f0ede8',
                         }}
-                        className="mb-12 uppercase"
+                        className="mb-8 sm:mb-12 uppercase"
                     >
                         How it is<br />different.
                     </h2>
 
+                    {/* Mobile: stacked comparison cards */}
                     <div
-                        className="overflow-x-auto"
+                        className="md:hidden"
+                        style={{
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            background: '#0e0e0e',
+                        }}
+                    >
+                        {comparisonData.map((row, i) => (
+                            <div
+                                key={row.aspect}
+                                style={{
+                                    padding: '16px',
+                                    borderTop: i > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        fontFamily: 'JetBrains Mono, monospace',
+                                        fontSize: '11px',
+                                        color: '#ff3a00',
+                                        letterSpacing: '0.08em',
+                                        marginBottom: '12px',
+                                    }}
+                                >
+                                    {row.aspect}
+                                </div>
+                                <div className="space-y-3">
+                                    <div>
+                                        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '9px', color: '#6b6b6b', letterSpacing: '0.1em', marginBottom: '3px' }}>
+                                            TRADITIONAL SCANNERS
+                                        </div>
+                                        <p style={{ fontSize: '12.5px', color: 'rgba(240,237,232,0.45)', lineHeight: 1.5 }}>
+                                            {row.traditional}
+                                        </p>
+                                    </div>
+                                    <div style={{ borderLeft: '2px solid rgba(255,58,0,0.5)', paddingLeft: '10px' }}>
+                                        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '9px', color: '#ff3a00', letterSpacing: '0.1em', marginBottom: '3px' }}>
+                                            PACKSAFE
+                                        </div>
+                                        <p style={{ fontSize: '12.5px', color: '#f0ede8', lineHeight: 1.5 }}>
+                                            <span style={{ color: '#00cc55', marginRight: '6px' }}>✓</span>
+                                            {row.packsafe}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop: comparison table */}
+                    <div
+                        className="hidden md:block overflow-x-auto"
                         style={{
                             border: '1px solid rgba(255,255,255,0.08)',
                             background: '#0e0e0e',
@@ -93,7 +144,7 @@ export default function ComparisonAndAudience() {
                         }}
                         className="block mb-4 uppercase"
                     >
-                        11 · AUDIENCE
+                        10 · AUDIENCE
                     </span>
 
                     <h2
@@ -105,16 +156,16 @@ export default function ComparisonAndAudience() {
                             letterSpacing: '-0.02em',
                             color: '#f0ede8',
                         }}
-                        className="mb-10 uppercase"
+                        className="mb-8 sm:mb-10 uppercase"
                     >
                         Who it is for.
                     </h2>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {audienceData.map((a, i) => (
                             <div
                                 key={a.role}
-                                className="p-6"
+                                className="p-5 sm:p-6"
                                 style={{
                                     background: '#0e0e0e',
                                     border: '1px solid rgba(255,255,255,0.08)',

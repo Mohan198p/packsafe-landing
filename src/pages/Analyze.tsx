@@ -74,10 +74,10 @@ export default function Analyze() {
     >
       <Nav />
 
-      <main className="flex-1 max-w-[1280px] w-full mx-auto px-6 pt-[80px] pb-16">
+      <main className="flex-1 max-w-[1280px] w-full mx-auto px-4 sm:px-6 pt-[72px] sm:pt-[80px] pb-12 sm:pb-16">
         {/* Dashboard Intro / Header */}
-        <section className="py-8 md:py-12 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
-          <div className="flex items-center gap-2 mb-3">
+        <section className="py-6 sm:py-8 md:py-12 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div className="flex flex-wrap items-center gap-2 mb-3">
             <span
               className="text-[11px] font-mono tracking-widest uppercase font-semibold px-2 py-0.5"
               style={{
@@ -104,7 +104,7 @@ export default function Analyze() {
             }}
             className="text-4xl md:text-6xl font-extrabold uppercase leading-none max-w-3xl"
           >
-            Analyze open-source packages <br />
+            Analyze open-source packages <br className="hidden sm:block" />{' '}
             <span style={{ color: 'var(--accent-orange)' }}>before you install them.</span>
           </h1>
 

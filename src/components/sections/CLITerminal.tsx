@@ -6,9 +6,9 @@ import { cliLines } from "@/data"
 export function CLITerminal() {
     const { ref, inView } = useInView()
     return (
-        <section ref={ref} className="py-32 px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
-                <div className="grid lg:grid-cols-[1fr_1fr] gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 sm:gap-12 lg:gap-20 items-center">
                     <div>
                         <span
                             style={{
@@ -22,7 +22,7 @@ export function CLITerminal() {
                             08 · INSTALL BEHIND A GATE
                         </span>
 
-                        <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 'clamp(48px, 5.5vw, 80px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.02em', color: '#f0ede8' }} className="mb-6 uppercase">
+                        <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 'clamp(44px, 5.5vw, 80px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.02em', color: '#f0ede8' }} className="mb-6 uppercase">
                             The whole report<br />fits on<br /><span style={{ color: '#ff3a00' }}>one screen.</span>
                         </h2>
 
@@ -52,7 +52,7 @@ export function CLITerminal() {
                             </span>
                             <div />
                         </div>
-                        <div className="p-6 pb-10"><Terminal lines={cliLines} started={inView} /></div>
+                        <div className="p-4 sm:p-6 pb-8 sm:pb-10"><Terminal lines={cliLines} started={inView} /></div>
                     </div>
                 </div>
             </div>

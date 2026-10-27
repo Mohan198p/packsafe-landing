@@ -18,13 +18,13 @@ export default function DependencyList({ pkg }: DependencyListProps) {
 
   return (
     <div
-      className="p-6 md:p-8 transition-all duration-200"
+      className="p-4 sm:p-6 md:p-8 transition-all duration-200"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border-color)',
       }}
     >
-      <div className="border-b pb-4 mb-6 flex items-center justify-between" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div className="border-b pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2" style={{ borderColor: 'var(--border-subtle)' }}>
         <div>
           <span className="text-[10px] font-mono tracking-widest uppercase font-semibold" style={{ color: 'var(--accent-orange)' }}>
             SUPPLY CHAIN GRAPH
@@ -59,8 +59,8 @@ export default function DependencyList({ pkg }: DependencyListProps) {
                 onClick={() => handleNavigateDep(dep.name)}
                 className="p-3.5 flex items-center justify-between cursor-pointer transition-colors duration-150 hover:bg-[var(--bg-hover)] group"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-mono font-semibold group-hover:text-[var(--accent-orange)] transition-colors" style={{ color: 'var(--text-primary)' }}>
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-sm font-mono font-semibold truncate group-hover:text-[var(--accent-orange)] transition-colors" style={{ color: 'var(--text-primary)' }}>
                     {dep.name}
                   </span>
                   <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
@@ -110,8 +110,8 @@ export default function DependencyList({ pkg }: DependencyListProps) {
                 onClick={() => handleNavigateDep(dep.name)}
                 className="p-3 flex items-center justify-between cursor-pointer transition-colors hover:bg-[var(--bg-hover)] group"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono group-hover:text-[var(--accent-orange)] transition-colors" style={{ color: 'var(--text-secondary)' }}>
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-xs font-mono truncate group-hover:text-[var(--accent-orange)] transition-colors" style={{ color: 'var(--text-secondary)' }}>
                     {dep.name}
                   </span>
                   <span className="text-[11px] font-mono" style={{ color: 'var(--text-subtle)' }}>

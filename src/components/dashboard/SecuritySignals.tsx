@@ -68,7 +68,7 @@ export default function SecuritySignals({ pkg }: SecuritySignalsProps) {
 
   return (
     <div
-      className="p-6 md:p-8 transition-all duration-200"
+      className="p-4 sm:p-6 md:p-8 transition-all duration-200"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border-color)',

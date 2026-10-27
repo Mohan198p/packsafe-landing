@@ -26,7 +26,7 @@ export default function Landing() {
       <BehaviorAnalysis />
       <DependencyGraph />
       <AISearch />
-      <CLITerminal />
+      {/* <CLITerminal /> */}
       <DevTooling />
       <ComparisonAndAudience />
       <FAQSection />

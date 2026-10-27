@@ -24,3 +24,5 @@ reference-docs
 *.njsproj
 *.sln
 *.sw?
+
+BLOG.md

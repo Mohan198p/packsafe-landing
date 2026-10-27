@@ -7,15 +7,15 @@ export default function BehaviorAnalysis() {
     const icon = (s: string) => s === 'pass' ? { i: '✓', c: '#00cc55' } : s === 'warn' ? { i: '⚠', c: '#ffaa00' } : { i: '✗', c: '#ff3a00' }
 
     return (
-        <section ref={ref} className="py-32 px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
-                <div className="grid lg:grid-cols-[1fr_1fr] gap-20 items-start">
-                    <div style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#0a0f0a', opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease' }}>
-                        <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0d120d' }}>
-                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#f0ede8', letterSpacing: '0.1em' }}>
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-20 items-start">
+                    <div className="min-w-0" style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#0a0f0a', opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease' }}>
+                        <div className="px-4 sm:px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0d120d' }}>
+                            <span className="break-words" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#f0ede8', letterSpacing: '0.1em' }}>
                                 STATIC ANALYSIS & POLICY GATES — requests@2.32.3
                             </span>
-                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#00cc55' }}>
+                            <span className="whitespace-nowrap" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#00cc55' }}>
                                 ALL GATES PASSED
                             </span>
                         </div>
@@ -32,7 +32,7 @@ export default function BehaviorAnalysis() {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="min-w-0">
                         <span
                             style={{
                                 fontFamily: 'JetBrains Mono, monospace',

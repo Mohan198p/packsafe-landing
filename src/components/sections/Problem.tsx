@@ -5,7 +5,7 @@ import { useInView } from "@/hooks/useInView"
 export default function Problem() {
     const { ref, inView } = useInView()
     return (
-        <section ref={ref} className="py-32 px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
                 <span
                     style={{
@@ -33,7 +33,7 @@ export default function Problem() {
                     You cannot read<br />every dependency.
                 </h2>
 
-                <div className="grid md:grid-cols-2 gap-8 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 md:mb-20">
                     <p style={{ color: 'rgba(240,237,232,0.6)', lineHeight: 1.7 }} className="text-base">
                         Your project depends on hundreds of packages. Each one was published by a stranger, pushed by an automated workflow, and installed without being read. A package name tells you nothing about whether the code inside it will steal your credentials, phone home to an attacker, or quietly exfiltrate your environment variables.
                     </p>
@@ -55,14 +55,13 @@ export default function Problem() {
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                     {threats.map((t, i) => (
                         <div
                             key={t.n}
-                            className={`py-10 ${i % 2 === 0 ? 'md:pr-10' : 'md:pl-10'}`}
+                            className={`py-8 md:py-10 ${i % 2 === 0 ? 'md:pr-10 md:border-r md:border-white/[0.08]' : 'md:pl-10'}`}
                             style={{
                                 borderTop: '1px solid rgba(255,255,255,0.08)',
-                                borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.08)' : 'none',
                                 opacity: inView ? 1 : 0,
                                 transform: inView ? 'none' : 'translateY(20px)',
                                 transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`

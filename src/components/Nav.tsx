@@ -10,6 +10,7 @@ export default function Nav({ transparent = false }: NavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
   const isDocs = location.pathname.startsWith('/docs')
+  const isBlog = location.pathname.startsWith('/blog')
   const isAnalyze = location.pathname.startsWith('/analyze')
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Nav({ transparent = false }: NavProps) {
 
 
 
-  const solid = !transparent || scrolled || isDocs || isAnalyze || mobileMenuOpen
+  const solid = !transparent || scrolled || isDocs || isBlog || isAnalyze || mobileMenuOpen
 
   return (
     <nav
@@ -39,7 +40,7 @@ export default function Nav({ transparent = false }: NavProps) {
         borderBottom: solid ? '1px solid var(--border-color)' : 'none',
       }}
     >
-      <div className="max-w-[1280px] mx-auto px-6 h-[54px] flex items-center justify-between">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-[54px] flex items-center justify-between gap-3">
         {/* Brand Logo */}
         <Link
           to="/"
@@ -62,13 +63,17 @@ export default function Nav({ transparent = false }: NavProps) {
           {[
             { label: 'Product', to: '/' },
             { label: 'Docs', to: '/docs' },
+            { label: 'Blog', to: '/blog' },
             { label: 'GitHub', to: 'https://github.com/rahulpedapudi/packsafe/' },
           ].map(item => {
             const isExternal = item.to.startsWith('http')
+            const isActive =
+              (item.label === 'Docs' && isDocs) ||
+              (item.label === 'Blog' && isBlog)
             const commonProps = {
               key: item.label,
               className: "hover:text-[var(--text-primary)] transition-colors",
-              style: item.label === 'Docs' && isDocs
+              style: isActive
                 ? { color: '#ff3a00', fontWeight: 600 }
                 : undefined
             }
@@ -100,7 +105,7 @@ export default function Nav({ transparent = false }: NavProps) {
           {/* Analyze a package button -> Routes to /analyze */}
           <Link
             to="/analyze"
-            className="text-xs px-4 py-2 font-medium transition-all hover:bg-[#ff5a20] flex items-center gap-1.5"
+            className="text-[11px] sm:text-xs px-3 sm:px-4 py-2 font-medium transition-all hover:bg-[#ff5a20] flex items-center gap-1.5 whitespace-nowrap"
             style={{
               fontFamily: 'JetBrains Mono, monospace',
               background: isAnalyze ? '#e03400' : '#ff3a00',
@@ -110,7 +115,8 @@ export default function Nav({ transparent = false }: NavProps) {
               outline: isAnalyze ? '1px solid rgba(255, 255, 255, 0.25)' : 'none',
             }}
           >
-            <span>Analyze a package</span>
+            <span className="sm:hidden">Analyze</span>
+            <span className="hidden sm:inline">Analyze a package</span>
             <span>↗</span>
           </Link>
 
@@ -135,7 +141,7 @@ export default function Nav({ transparent = false }: NavProps) {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div
-          className="md:hidden border-t px-6 py-5 space-y-4 fade-up"
+          className="md:hidden border-t px-4 sm:px-6 py-5 space-y-4 fade-up"
           style={{
             backgroundColor: 'rgba(10,10,10,0.98)',
             borderColor: 'var(--border-color)',
@@ -157,6 +163,15 @@ export default function Nav({ transparent = false }: NavProps) {
               }}
             >
               Docs
+            </Link>
+            <Link
+              to="/blog"
+              className="py-1 hover:text-[var(--accent-orange)] transition-colors"
+              style={{
+                color: isBlog ? 'var(--accent-orange)' : 'var(--text-primary)',
+              }}
+            >
+              Blog
             </Link>
             <a
               href="https://github.com/rahulpedapudi/packsafe/"

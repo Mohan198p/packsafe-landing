@@ -102,7 +102,7 @@ PACKSAFE_LOG_FILE=/tmp/p.log PACKSAFE_LOG_LEVEL=DEBUG packsafe analyze requests`
         </TBody>
       </Table>
 
-      <Callout type="important">
+      <Callout type="warning">
         <strong>You never supply a model provider key to the CLI.</strong> The provider key lives on the machine running the PackSafe service (<Code>PACKSAFE_LLM_API_KEY</Code> and <Code>PACKSAFE_LLM_PROVIDER</Code> there), which is why <Code>--explain</Code> is a call to a service rather than directly calling a model from your terminal.
       </Callout>
 
