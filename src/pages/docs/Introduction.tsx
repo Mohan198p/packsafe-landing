@@ -48,7 +48,7 @@ export default function Introduction() {
         Weights sum to exactly <Code>1.00</Code> and are validated by the engine at load time:
       </P>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" style={{ marginBottom: '24px' }}>
         {[
           { name: 'Security (40%)', desc: 'Known vulnerabilities, exploitability (EPSS), active KEV catalog listings, and malicious patterns.' },
           { name: 'Integrity (25%)', desc: 'Reproducibility, wheel and sdist hash consistency, signature verification, and provenance.' },

@@ -20,7 +20,7 @@ export function H1({ children }: { children: ReactNode }) {
     <h1
       style={{
         fontFamily: 'Barlow Condensed, sans-serif',
-        fontSize: 'clamp(40px, 5vw, 64px)',
+        fontSize: 'clamp(36px, 5vw, 64px)',
         fontWeight: 900,
         lineHeight: 0.95,
         letterSpacing: '-0.02em',
@@ -38,16 +38,14 @@ export function H2({ children, id }: { children: ReactNode; id?: string }) {
   return (
     <h2
       id={id}
+      className="scroll-mt-28 lg:scroll-mt-24 mt-10 sm:mt-14 pt-10 sm:pt-14 mb-4"
       style={{
         fontFamily: 'Barlow Condensed, sans-serif',
-        fontSize: '32px',
+        fontSize: 'clamp(26px, 4vw, 32px)',
         fontWeight: 800,
         lineHeight: 1,
         letterSpacing: '-0.015em',
         color: '#f0ede8',
-        marginTop: '56px',
-        marginBottom: '16px',
-        paddingTop: '56px',
         borderTop: '1px solid rgba(255,255,255,0.08)',
       }}
     >
@@ -60,6 +58,7 @@ export function H3({ children, id }: { children: ReactNode; id?: string }) {
   return (
     <h3
       id={id}
+      className="scroll-mt-28 lg:scroll-mt-24"
       style={{
         fontFamily: 'Barlow Condensed, sans-serif',
         fontSize: '22px',
@@ -67,7 +66,7 @@ export function H3({ children, id }: { children: ReactNode; id?: string }) {
         lineHeight: 1.1,
         letterSpacing: '-0.01em',
         color: '#f0ede8',
-        marginTop: '36px',
+        marginTop: '32px',
         marginBottom: '10px',
       }}
     >
@@ -180,12 +179,11 @@ export function CodeBlock({ children, lang = 'bash', title }: CodeBlockProps) {
 
       {/* Code content */}
       <pre
+        className="text-[11.5px] sm:text-[12.5px] p-4 sm:p-5"
         style={{
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: '12.5px',
           lineHeight: 1.75,
           color: '#c8c8c8',
-          padding: '20px',
           margin: 0,
           overflowX: 'auto',
           whiteSpace: 'pre',
@@ -214,6 +212,7 @@ export function Callout({ type = 'note', children }: { type?: CalloutType; child
     <div
       style={{
         width: 'fit-content',
+        maxWidth: '100%',
         background: cfg.bg,
         border: `1px solid ${cfg.border}`,
         borderLeft: `2px solid ${cfg.color}`,
@@ -308,11 +307,11 @@ export function Table({ children }: { children: ReactNode }) {
   return (
     <div style={{ overflowX: 'auto', marginBottom: '24px' }}>
       <table
+        className="text-[11px] sm:text-[12px]"
         style={{
           width: '100%',
           borderCollapse: 'collapse',
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: '12px',
         }}
       >
         {children}
@@ -344,8 +343,8 @@ export function TR({ children }: { children: ReactNode }) {
 export function TH({ children }: { children: ReactNode }) {
   return (
     <th
+      className="px-2 sm:px-3.5 py-2.5"
       style={{
-        padding: '10px 14px',
         textAlign: 'left',
         color: 'rgba(240,237,232,0.35)',
         letterSpacing: '0.08em',
@@ -361,8 +360,8 @@ export function TH({ children }: { children: ReactNode }) {
 export function TD({ children }: { children: ReactNode }) {
   return (
     <td
+      className="px-2 sm:px-3.5 py-2.5"
       style={{
-        padding: '10px 14px',
         color: 'rgba(240,237,232,0.65)',
         verticalAlign: 'top',
       }}
@@ -439,13 +438,9 @@ export function FlagRow({
 }) {
   return (
     <div
+      className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 md:gap-4 items-start px-3 sm:px-4 py-3.5"
       style={{
-        padding: '14px 16px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
-        display: 'grid',
-        gridTemplateColumns: '200px 1fr',
-        gap: '16px',
-        alignItems: 'start',
       }}
     >
       <div>

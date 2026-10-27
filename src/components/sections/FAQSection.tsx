@@ -12,7 +12,7 @@ export default function FAQSection() {
     }
 
     return (
-        <section ref={ref} className="py-32 px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
                 <span
                     style={{
@@ -23,7 +23,7 @@ export default function FAQSection() {
                     }}
                     className="block mb-4 uppercase"
                 >
-                    12 · FREQUENTLY ASKED QUESTIONS
+                    11 · FREQUENTLY ASKED QUESTIONS
                 </span>
 
                 <h2
@@ -35,7 +35,7 @@ export default function FAQSection() {
                         letterSpacing: '-0.02em',
                         color: '#f0ede8',
                     }}
-                    className="mb-14 uppercase"
+                    className="mb-8 sm:mb-14 uppercase"
                 >
                     Questions &<br />answers.
                 </h2>
@@ -44,15 +44,15 @@ export default function FAQSection() {
                     {faqData.map((item, i) => {
                         const isOpen = openIdx === i
                         return (
-                            <div key={item.q} className="py-6">
+                            <div key={item.q} className="py-5 sm:py-6">
                                 <button
                                     onClick={() => toggle(i)}
-                                    className="w-full text-left flex items-center justify-between gap-6 cursor-pointer group focus:outline-none"
+                                    className="w-full text-left flex items-center justify-between gap-4 sm:gap-6 cursor-pointer group focus:outline-none"
                                 >
                                     <span
                                         style={{
                                             fontFamily: 'Barlow Condensed, sans-serif',
-                                            fontSize: '24px',
+                                            fontSize: 'clamp(20px, 4.5vw, 24px)',
                                             fontWeight: 700,
                                             letterSpacing: '-0.01em',
                                             color: isOpen ? '#ff3a00' : '#f0ede8',
@@ -75,7 +75,7 @@ export default function FAQSection() {
                                     </span>
                                 </button>
                                 {isOpen && (
-                                    <div className="mt-4 pr-12">
+                                    <div className="mt-4 pr-6 sm:pr-12">
                                         <p style={{ color: 'rgba(240,237,232,0.6)', lineHeight: 1.7, fontSize: '14px' }}>
                                             {item.a}
                                         </p>

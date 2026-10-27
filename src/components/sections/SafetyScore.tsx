@@ -6,7 +6,7 @@ import { signals } from "@/data"
 export default function SafetyScore() {
     const { ref, inView } = useInView()
     return (
-        <section ref={ref} className="py-32 px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
                 <span
                     style={{
@@ -20,7 +20,7 @@ export default function SafetyScore() {
                     03 · EXPLAINABLE SCORING
                 </span>
 
-                <div className="grid lg:grid-cols-[auto_1fr] gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 items-center">
                     <div className="shrink-0" style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : 'translateY(16px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}>
                         <div style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 'clamp(80px, 12vw, 170px)', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em', color: '#00cc55' }}>
                             91
@@ -33,7 +33,7 @@ export default function SafetyScore() {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 min-w-0">
                         <div>
                             <h2
                                 style={{

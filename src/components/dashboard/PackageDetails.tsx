@@ -18,7 +18,6 @@ export default function PackageDetails() {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
     let isMounted = true
 
     async function fetchPackage() {
@@ -85,7 +84,7 @@ export default function PackageDetails() {
     >
       <Nav />
 
-      <main className="flex-1 max-w-[1280px] w-full mx-auto px-6 pt-[84px] pb-16">
+      <main className="flex-1 max-w-[1280px] w-full mx-auto px-4 sm:px-6 pt-[72px] sm:pt-[84px] pb-12 sm:pb-16">
         {/* Back navigation */}
         <div className="mb-6">
           <Link
@@ -100,7 +99,7 @@ export default function PackageDetails() {
 
         {loading ? (
           <div
-            className="p-16 my-8 text-center border"
+            className="p-8 sm:p-16 my-8 text-center border"
             style={{
               backgroundColor: 'var(--bg-card)',
               borderColor: 'var(--border-color)',
@@ -116,7 +115,7 @@ export default function PackageDetails() {
           </div>
         ) : !pkg ? (
           <div
-            className="p-16 my-8 text-center border"
+            className="p-8 sm:p-16 my-8 text-center border"
             style={{
               backgroundColor: 'var(--bg-card)',
               borderColor: 'var(--border-color)',
@@ -146,7 +145,7 @@ export default function PackageDetails() {
           <div className="space-y-8 fade-up">
             {/* Header Banner */}
             <div
-              className="p-6 md:p-8 relative overflow-hidden"
+              className="p-4 sm:p-6 md:p-8 relative overflow-hidden"
               style={{
                 backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border-color)',
@@ -154,7 +153,7 @@ export default function PackageDetails() {
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                  <div className="flex items-center gap-2.5 mb-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-2">
                     <span
                       className="text-[10px] font-mono tracking-widest uppercase font-semibold px-2 py-0.5"
                       style={{
@@ -178,7 +177,7 @@ export default function PackageDetails() {
                   </div>
 
                   <h1
-                    className="text-3xl md:text-5xl font-mono font-bold tracking-tight uppercase"
+                    className="text-2xl sm:text-3xl md:text-5xl font-mono font-bold tracking-tight uppercase break-words"
                     style={{ color: 'var(--text-primary)' }}
                   >
                     {pkg.name}
@@ -194,7 +193,7 @@ export default function PackageDetails() {
 
                 {/* Score & Risk Summary pill */}
                 <div
-                  className="flex items-center gap-6 p-4 border self-start md:self-auto"
+                  className="flex items-center justify-between sm:justify-start gap-6 p-4 border self-stretch md:self-auto"
                   style={{
                     backgroundColor: 'var(--bg-card-subtle)',
                     borderColor: 'var(--border-subtle)',
@@ -234,10 +233,10 @@ export default function PackageDetails() {
                 className="mt-6 pt-4 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono"
                 style={{ borderColor: 'var(--border-subtle)' }}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
                   <span style={{ color: 'var(--text-muted)' }}>Install via PackSafe CLI:</span>
                   <code
-                    className="px-2.5 py-1 rounded-xs select-all font-semibold"
+                    className="px-2.5 py-1 rounded-xs select-all font-semibold max-w-full overflow-x-auto whitespace-nowrap"
                     style={{
                       backgroundColor: 'var(--code-bg)',
                       color: 'var(--accent-orange)',
@@ -313,7 +312,7 @@ export default function PackageDetails() {
 
             {activeTab === 'behavior' && (
               <div
-                className="p-6 md:p-8 space-y-6 fade-up"
+                className="p-4 sm:p-6 md:p-8 space-y-6 fade-up"
                 style={{
                   backgroundColor: 'var(--bg-card)',
                   border: '1px solid var(--border-color)',
@@ -337,7 +336,7 @@ export default function PackageDetails() {
                     return (
                       <div
                         key={b.type}
-                        className="p-5 border flex flex-col justify-between"
+                        className="p-4 sm:p-5 border flex flex-col justify-between"
                         style={{
                           backgroundColor: 'var(--bg-card-subtle)',
                           borderColor: 'var(--border-subtle)',
@@ -370,7 +369,7 @@ export default function PackageDetails() {
 
             {/* Analysis Summary Box (always visible at bottom) */}
             <div
-              className="p-6 md:p-8 border"
+              className="p-4 sm:p-6 md:p-8 border"
               style={{
                 backgroundColor: 'var(--bg-card)',
                 borderColor:

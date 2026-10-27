@@ -283,10 +283,10 @@ export default function ScoreEngine() {
           <TR><TD>Registry</TD><TD>0.98</TD><TD>registry_osv = 0.70</TD></TR>
           <TR><TD>GitHub</TD><TD>0.95</TD><TD>registry_osv_repository = 0.85</TD></TR>
           <TR><TD>Archive</TD><TD>0.95</TD><TD>deep_static = 1.00</TD></TR>
-          <TR><TD>deps.dev</TD><TD>0.92</TD><TD></TD></TR>
-          <TR><TD>Static analysis</TD><TD>0.90</TD><TD></TD></TR>
-          <TR><TD>Identity</TD><TD>0.90</TD><TD></TD></TR>
-          <TR><TD>Heuristic</TD><TD>0.80</TD><TD></TD></TR>
+          <TR><TD>deps.dev</TD><TD>0.92</TD><TD>—</TD></TR>
+          <TR><TD>Static analysis</TD><TD>0.90</TD><TD>—</TD></TR>
+          <TR><TD>Identity</TD><TD>0.90</TD><TD>—</TD></TR>
+          <TR><TD>Heuristic</TD><TD>0.80</TD><TD>—</TD></TR>
         </TBody>
       </Table>
 

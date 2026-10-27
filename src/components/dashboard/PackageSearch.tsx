@@ -113,7 +113,7 @@ export default function PackageSearch({
           }}
         >
           {/* Search Icon */}
-          <div className="pl-4 pr-2 flex items-center pointer-events-none select-none">
+          <div className="pl-3 sm:pl-4 pr-2 flex items-center pointer-events-none select-none">
             <span
               style={{ color: 'var(--accent-orange)' }}
               className="text-base"
@@ -129,8 +129,8 @@ export default function PackageSearch({
             type="text"
             value={query}
             onChange={handleInputChange}
-            placeholder="Search a package (e.g. requests, react, lodash)"
-            className="w-full py-4 px-2 font-mono text-sm md:text-base focus:outline-none placeholder:text-[var(--text-muted)]"
+            placeholder="Search packages..."
+            className="w-full min-w-0 py-4 px-2 font-mono text-sm md:text-base focus:outline-none placeholder:text-[var(--text-muted)]"
             style={{
               backgroundColor: 'transparent',
               color: 'var(--text-primary)',
@@ -159,7 +159,7 @@ export default function PackageSearch({
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-xs md:text-sm font-mono font-medium transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-3 sm:px-4 py-2 text-xs md:text-sm font-mono font-medium transition-all flex items-center gap-2 disabled:opacity-50"
               style={{
                 backgroundColor: 'var(--accent-orange)',
                 color: '#ffffff',
@@ -199,10 +199,10 @@ export default function PackageSearch({
       </form>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-end gap-3 mt-3.5 pt-1">
+      <div className="flex flex-wrap items-center justify-start sm:justify-end gap-3 mt-3.5 pt-1">
 
         {/* Filters */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
           {/* Registry Filter */}
           <div className="flex items-center gap-1.5 text-xs font-mono">
             <span style={{ color: 'var(--text-subtle)' }}>Registry:</span>
@@ -252,7 +252,7 @@ export default function PackageSearch({
         <div className="mt-5 fade-up">
           {previewResult ? (
             <div
-              className="p-5 relative transition-all duration-200"
+              className="p-4 sm:p-5 relative transition-all duration-200"
               style={{
                 backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--accent-orange)',
@@ -305,7 +305,7 @@ export default function PackageSearch({
                 </div>
 
                 {/* Score & Action */}
-                <div className="flex items-center gap-6 border-t md:border-t-0 md:border-l pt-3 md:pt-0 md:pl-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                <div className="flex items-center gap-4 sm:gap-6 border-t md:border-t-0 md:border-l pt-3 md:pt-0 md:pl-6" style={{ borderColor: 'var(--border-subtle)' }}>
                   <div className="text-left md:text-right">
                     <div className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
                       Safety Score
@@ -336,7 +336,7 @@ export default function PackageSearch({
                   <button
                     type="button"
                     onClick={() => handleViewAnalysis(previewResult.name)}
-                    className="px-4 py-2.5 text-xs font-mono font-medium transition-colors hover:opacity-90 whitespace-nowrap"
+                    className="px-3 sm:px-4 py-2.5 text-xs font-mono font-medium transition-colors hover:opacity-90 whitespace-nowrap"
                     style={{
                       backgroundColor: 'var(--accent-orange)',
                       color: '#ffffff',
@@ -350,7 +350,7 @@ export default function PackageSearch({
               {/* Multiple matches notice */}
               {matches.length > 1 && (
                 <div
-                  className="mt-4 pt-3 border-t flex items-center justify-between text-xs font-mono"
+                  className="mt-4 pt-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs font-mono"
                   style={{
                     borderColor: 'var(--border-subtle)',
                     color: 'var(--text-muted)',
@@ -376,7 +376,7 @@ export default function PackageSearch({
             </div>
           ) : (
             <div
-              className="p-8 text-center"
+              className="p-6 sm:p-8 text-center"
               style={{
                 backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border-color)',

@@ -10,10 +10,10 @@ export default function DependencyGraph() {
     const sc = (s: number) => s >= 92 ? '#00cc55' : s >= 85 ? '#ffaa00' : '#ff3a00'
 
     return (
-        <section ref={ref} className="py-32 px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={ref} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6" style={{ background: '#0b0b0b', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="max-w-[1280px] mx-auto">
-                <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-start">
-                    <div>
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16 items-start">
+                    <div className="min-w-0">
                         <span
                             style={{
                                 fontFamily: 'JetBrains Mono, monospace',
@@ -46,7 +46,7 @@ export default function DependencyGraph() {
                             ))}
                         </div>
                     </div>
-                    <div style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#090909', opacity: inView ? 1 : 0, transition: 'opacity 0.7s ease 0.1s' }}>
+                    <div className="min-w-0" style={{ border: '1px solid rgba(255,255,255,0.08)', background: '#090909', opacity: inView ? 1 : 0, transition: 'opacity 0.7s ease 0.1s' }}>
                         <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                             <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#f0ede8', letterSpacing: '0.1em' }}>
                                 DEPENDENCY MAP — requests@2.32.3

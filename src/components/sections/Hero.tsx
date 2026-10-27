@@ -16,11 +16,11 @@ export default function Hero() {
 
     return (
         <section
-            className="relative pt-[100px] pb-16 px-6 overflow-hidden"
+            className="relative pt-[88px] sm:pt-[100px] pb-12 md:pb-16 px-4 sm:px-6 overflow-hidden"
             style={{ minHeight: '100vh', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
-            <div className="max-w-[1280px] mx-auto grid lg:grid-cols-2 gap-12 items-center">
-                <div>
+            <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div className="min-w-0">
                     {/* Eyebrow */}
                     <div className="flex items-center gap-2 mb-4">
                         <span
@@ -127,7 +127,7 @@ export default function Hero() {
 
                 {/* Terminal Preview */}
                 <div
-                    className="w-full overflow-hidden"
+                    className="w-full min-w-0 overflow-hidden"
                     style={{ background: '#0a0f0a', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                     <div
@@ -144,7 +144,7 @@ export default function Hero() {
                         </span>
                         <div />
                     </div>
-                    <div className="p-6 pb-10">
+                    <div className="p-4 sm:p-6 pb-8 sm:pb-10 overflow-x-auto">
                         <Terminal lines={heroLines} started={started} />
                     </div>
                 </div>

@@ -167,13 +167,12 @@ function Sidebar() {
 function MobileNav() {
   return (
     <div
-      className="lg:hidden"
+      className="lg:hidden sticky top-[54px] z-30 flex gap-1.5 overflow-x-auto px-4 sm:px-6 py-2.5"
       style={{
-        overflowX: 'auto',
         borderBottom: '1px solid rgba(255,255,255,0.08)',
-        padding: '12px 20px',
-        display: 'flex',
-        gap: '4px',
+        backgroundColor: 'rgba(8,8,8,0.97)',
+        backdropFilter: 'blur(10px)',
+        scrollbarWidth: 'none',
       }}
     >
       {docsSidebar.flatMap(g => g.items).map(item => (
@@ -184,12 +183,13 @@ function MobileNav() {
           style={({ isActive }) => ({
             fontFamily: 'JetBrains Mono, monospace',
             fontSize: '11px',
-            padding: '4px 10px',
+            padding: '5px 10px',
             color: isActive ? '#f0ede8' : 'rgba(240,237,232,0.4)',
             background: isActive ? 'rgba(255,255,255,0.07)' : 'transparent',
             border: isActive ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
             textDecoration: 'none',
             whiteSpace: 'nowrap',
+            flexShrink: 0,
             transition: 'color 0.15s',
           })}
         >
@@ -205,12 +205,15 @@ export default function DocsLayout() {
     <div style={{ background: '#080808', minHeight: '100vh' }}>
       <Nav />
 
-      <div style={{ paddingTop: '52px', display: 'flex', minHeight: '100vh' }}>
+      <div style={{ paddingTop: '54px', display: 'flex', minHeight: '100vh' }}>
         <Sidebar />
 
         <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-          {/* <MobileNav /> */}
-          <main style={{ flex: 1, padding: '48px 48px 96px', maxWidth: '860px' }}>
+          <MobileNav />
+          <main
+            className="w-full flex-1 px-4 sm:px-6 lg:px-12 pt-8 sm:pt-10 lg:pt-12 pb-16 sm:pb-20 lg:pb-24"
+            style={{ maxWidth: '860px' }}
+          >
             <Outlet />
           </main>
         </div>
@@ -218,12 +221,15 @@ export default function DocsLayout() {
 
       {/* Footer strip */}
       <div
+        className="px-4 sm:px-6 lg:px-12"
         style={{
           borderTop: '1px solid rgba(255,255,255,0.06)',
-          padding: '20px 48px',
+          paddingTop: '20px',
+          paddingBottom: '20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: '16px',
         }}
       >
         <Link

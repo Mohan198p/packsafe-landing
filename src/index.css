@@ -155,6 +155,25 @@ body {
   animation: pulseScanning 1.4s ease-in-out infinite;
 }
 
+/* Blog markdown */
+.blog-prose li > p {
+  margin-bottom: 0;
+}
+
+.blog-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-prose > :last-child {
+  margin-bottom: 0;
+}
+
+.blog-prose h2,
+.blog-prose h3,
+.blog-prose h4 {
+  scroll-margin-top: 80px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

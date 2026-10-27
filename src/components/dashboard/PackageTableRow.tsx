@@ -46,16 +46,16 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
       }}
     >
       {/* Package Name & Desc */}
-      <td className="py-3.5 px-4 text-left">
-        <div className="flex items-center gap-2.5">
+      <td className="py-3.5 px-1.5 sm:px-4 text-left">
+        <div className="flex items-center gap-2.5 min-w-0">
           <span
-            className="font-mono font-semibold text-sm group-hover:text-[var(--accent-orange)] transition-colors"
+            className="font-mono font-semibold text-sm truncate max-w-[120px] sm:max-w-none group-hover:text-[var(--accent-orange)] transition-colors"
             style={{ color: 'var(--text-primary)' }}
           >
             {pkg.name}
           </span>
           <span
-            className="text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider"
+            className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider"
             style={{
               background: 'var(--bg-card-subtle)',
               color: 'var(--text-muted)',
@@ -66,7 +66,7 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
           </span>
         </div>
         <p
-          className="text-xs truncate max-w-[280px] md:max-w-[340px] mt-0.5"
+          className="text-xs truncate max-w-[120px] sm:max-w-[280px] md:max-w-[340px] mt-0.5"
           style={{ color: 'var(--text-muted)' }}
           title={pkg.description}
         >
@@ -75,12 +75,12 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
       </td>
 
       {/* Version */}
-      <td className="py-3.5 px-4 text-left font-mono text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>
+      <td className="hidden md:table-cell py-3.5 px-1.5 sm:px-4 text-left font-mono text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>
         v{pkg.version}
       </td>
 
       {/* Safety Score */}
-      <td className="py-3.5 px-4 text-left whitespace-nowrap">
+      <td className="py-3.5 px-1.5 sm:px-4 text-left whitespace-nowrap">
         <div className="flex items-center gap-2">
           <span
             className="font-mono text-sm font-semibold"
@@ -95,13 +95,13 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
       </td>
 
       {/* Risk Badge */}
-      <td className="py-3.5 px-4 text-left whitespace-nowrap">
+      <td className="py-3.5 px-1.5 sm:px-4 text-left whitespace-nowrap">
         <PackageStatusBadge risk={pkg.risk} />
       </td>
 
       {/* Contextual Column: Reason for unsafe, Last Updated for safe */}
       {type === 'unsafe' ? (
-        <td className="py-3.5 px-4 text-left text-xs max-w-[240px]">
+        <td className="hidden lg:table-cell py-3.5 px-1.5 sm:px-4 text-left text-xs max-w-[240px]">
           <span
             className="line-clamp-1 font-mono text-[11px]"
             style={{ color: 'var(--status-danger)' }}
@@ -111,18 +111,18 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
           </span>
         </td>
       ) : (
-        <td className="py-3.5 px-4 text-left text-xs font-mono whitespace-nowrap" style={{ color: 'var(--text-muted)' }}>
+        <td className="hidden lg:table-cell py-3.5 px-1.5 sm:px-4 text-left text-xs font-mono whitespace-nowrap" style={{ color: 'var(--text-muted)' }}>
           {pkg.lastUpdated}
         </td>
       )}
 
       {/* Dependencies Count */}
-      <td className="py-3.5 px-4 text-left font-mono text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>
+      <td className="hidden md:table-cell py-3.5 px-1.5 sm:px-4 text-left font-mono text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>
         {pkg.dependenciesCount}
       </td>
 
       {/* Action */}
-      <td className="py-3.5 px-4 text-right whitespace-nowrap">
+      <td className="hidden sm:table-cell py-3.5 px-2 sm:px-4 text-right whitespace-nowrap">
         <button
           type="button"
           onClick={e => {
@@ -137,7 +137,8 @@ export default function PackageTableRow({ pkg, type }: PackageTableRowProps) {
           }}
           aria-label={`Inspect ${pkg.name}`}
         >
-          Inspect <span style={{ color: 'var(--accent-orange)' }}>→</span>
+          <span className="hidden sm:inline">Inspect</span>
+          <span style={{ color: 'var(--accent-orange)' }}>→</span>
         </button>
       </td>
     </tr>
